@@ -1,0 +1,2209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KitKat in Japan — MKTG 416 Ch. 2 Case Study</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --parchment:#FBF5DF;
+    --parchment-2:#F4EDD2;
+    --parchment-line:#E7DCB8;
+    --ink:#2B2622;
+    --ink-soft:#5A5249;
+    --cocoa:#6B4226;
+    --cocoa-deep:#4A2D18;
+    --crimson:#B23A2E;
+    --crimson-deep:#8F2C22;
+    --matcha:#7E945A;
+    --olive:#9A934F;
+    --gold:#C99A3B;
+    --card:#FFFDF4;
+    --card-line:#E7DCB8;
+    --shadow:rgba(74,45,24,0.10);
+    --shadow-strong:rgba(74,45,24,0.18);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html,body{height:100%;}
+
+  body{
+    font-family:'Outfit',system-ui,sans-serif;
+    background:var(--parchment);
+    color:var(--ink);
+    overflow:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Slide system ---------- */
+  .deck{position:fixed;inset:0;}
+
+  .slide{
+    position:fixed;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:clamp(28px,5vw,90px);
+    padding-bottom:clamp(58px,7vh,96px);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(14px);
+    transition:opacity .5s ease, transform .5s ease, visibility .5s;
+    overflow-y:auto;
+  }
+  .slide.active{opacity:1;visibility:visible;transform:translateY(0);}
+
+  .slide-inner{
+    width:100%;
+    max-width:1180px;
+    margin:0 auto;
+  }
+
+  /* ---------- Typography ---------- */
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:clamp(.62rem,1vw,.74rem);
+    font-weight:600;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--crimson);
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:26px;height:2px;
+    background:var(--crimson);
+    display:inline-block;
+  }
+
+  h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(2.4rem,6.2vw,5rem);
+    line-height:1.02;
+    letter-spacing:-.015em;
+    color:var(--cocoa-deep);
+  }
+  h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(1.7rem,3.6vw,2.9rem);
+    line-height:1.08;
+    letter-spacing:-.01em;
+    color:var(--cocoa-deep);
+    margin-bottom:22px;
+  }
+  h3{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:clamp(1.05rem,1.7vw,1.32rem);
+    line-height:1.2;
+    color:var(--cocoa);
+    margin-bottom:10px;
+  }
+  p{font-size:clamp(.95rem,1.25vw,1.08rem);line-height:1.6;color:var(--ink-soft);}
+  strong{color:var(--ink);font-weight:600;}
+
+  .lead{font-size:clamp(1.05rem,1.6vw,1.28rem);line-height:1.55;color:var(--ink);max-width:60ch;}
+
+  /* ---------- Title slide ---------- */
+  .title-slide .kk-tag{
+    display:inline-flex;align-items:center;gap:10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+    color:var(--card);
+    background:var(--crimson);
+    padding:7px 14px;border-radius:3px;
+    white-space:nowrap;
+    margin-bottom:26px;
+  }
+  .title-slide h1{margin-bottom:20px;}
+  .title-slide .subtitle{
+    font-family:'Fraunces',serif;font-style:italic;font-weight:400;
+    font-size:clamp(1.1rem,2vw,1.55rem);color:var(--cocoa);margin-bottom:30px;
+  }
+  .byline{
+    font-family:'JetBrains Mono',monospace;
+    font-size:clamp(.78rem,1.1vw,.92rem);
+    color:var(--ink-soft);
+    letter-spacing:.02em;
+    line-height:1.9;
+  }
+  .byline .who{color:var(--ink);font-weight:600;}
+
+  .stat-row{
+    display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,56px);
+    margin-top:38px;padding-top:30px;border-top:1px solid var(--parchment-line);
+  }
+  .stat .num{
+    font-family:'Fraunces',serif;font-weight:600;
+    font-size:clamp(1.9rem,3.6vw,2.9rem);color:var(--crimson);line-height:1;
+  }
+  .stat .lbl{
+    font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-soft);margin-top:8px;max-width:18ch;
+  }
+
+  /* ---------- Cards & grids ---------- */
+  .grid{display:grid;gap:clamp(16px,2vw,26px);}
+  .g2{grid-template-columns:repeat(2,1fr);}
+  .g3{grid-template-columns:repeat(3,1fr);}
+  .g4{grid-template-columns:repeat(4,1fr);}
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--card-line);
+    border-radius:12px;
+    padding:clamp(18px,2vw,26px);
+    box-shadow:0 1px 0 var(--shadow);
+  }
+  .card.accent{border-left:3px solid var(--crimson);}
+  .card.cocoa{border-left:3px solid var(--cocoa);}
+  .card.matcha{border-left:3px solid var(--matcha);}
+  .card.gold{border-left:3px solid var(--gold);}
+
+  ul.clean{list-style:none;}
+  ul.clean li{
+    position:relative;
+    padding-left:22px;
+    margin-bottom:11px;
+    font-size:clamp(.92rem,1.2vw,1.04rem);
+    line-height:1.5;
+    color:var(--ink-soft);
+  }
+  ul.clean li::before{
+    content:"";
+    position:absolute;left:0;top:.55em;
+    width:7px;height:7px;border-radius:50%;
+    background:var(--crimson);
+  }
+  ul.clean li strong{color:var(--ink);}
+
+  .pill{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.66rem;font-weight:600;letter-spacing:.06em;
+    padding:4px 10px;border-radius:20px;
+    background:var(--parchment-2);
+    color:var(--cocoa);
+    border:1px solid var(--parchment-line);
+    white-space:nowrap;
+    margin:0 6px 6px 0;
+  }
+  .pill.red{background:rgba(178,58,46,.1);color:var(--crimson-deep);border-color:rgba(178,58,46,.25);}
+  .pill.green{background:rgba(126,148,90,.14);color:#566638;border-color:rgba(126,148,90,.3);}
+
+  .q-num{
+    font-family:'Fraunces',serif;
+    font-size:clamp(2.6rem,5vw,4rem);
+    font-weight:600;
+    color:var(--crimson);
+    line-height:.9;
+    opacity:.9;
+  }
+  .q-label{
+    font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--ink-soft);margin-top:6px;
+  }
+
+  /* quote / feedback block */
+  .quote{
+    border-left:3px solid var(--cocoa);
+    background:var(--parchment-2);
+    padding:clamp(16px,2vw,24px) clamp(18px,2.2vw,28px);
+    border-radius:0 10px 10px 0;
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:clamp(1rem,1.5vw,1.18rem);
+    line-height:1.5;color:var(--cocoa-deep);
+  }
+  .quote .src{
+    display:block;margin-top:12px;font-family:'JetBrains Mono',monospace;
+    font-style:normal;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- Progress / nav ---------- */
+  .progress-bar{
+    position:fixed;left:0;bottom:0;height:3px;background:var(--crimson);
+    transition:width .4s ease;z-index:60;
+  }
+  .nav-dots{
+    position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+    display:flex;gap:7px;z-index:60;flex-wrap:wrap;justify-content:center;
+    max-width:80vw;
+  }
+  .nav-dots button{
+    width:8px;height:8px;border-radius:50%;border:none;cursor:pointer;padding:0;
+    background:var(--parchment-line);transition:all .25s ease;
+  }
+  .nav-dots button:hover{background:var(--cocoa);transform:scale(1.2);}
+  .nav-dots button.on{background:var(--crimson);width:22px;border-radius:5px;}
+
+  .slide-count{
+    position:fixed;right:20px;bottom:14px;z-index:60;
+    font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.1em;
+    color:var(--ink-soft);
+  }
+  .slide-count b{color:var(--crimson);}
+
+  .arrow{
+    position:fixed;top:50%;transform:translateY(-50%);
+    width:42px;height:42px;border-radius:50%;
+    background:var(--card);border:1px solid var(--card-line);
+    color:var(--cocoa);cursor:pointer;z-index:60;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;box-shadow:0 2px 8px var(--shadow);
+    transition:all .2s ease;
+  }
+  .arrow:hover{background:var(--crimson);color:var(--card);border-color:var(--crimson);}
+  .arrow.prev{left:16px;}
+  .arrow.next{right:16px;}
+  .arrow:disabled{opacity:.25;cursor:default;}
+  .arrow:disabled:hover{background:var(--card);color:var(--cocoa);border-color:var(--card-line);}
+
+  /* ---------- KitKat bar motif (SVG-ish) ---------- */
+  .kk-bar{display:flex;gap:5px;margin:0;}
+  .kk-finger{
+    width:14px;height:46px;border-radius:2px;
+    background:linear-gradient(180deg,#7B4A28 0%,#5A3318 100%);
+    box-shadow:inset 0 -3px 4px rgba(0,0,0,.25), inset 0 2px 3px rgba(255,255,255,.12);
+  }
+
+  /* ---------- Interactive components shared ---------- */
+  .run-btn{
+    font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:600;
+    letter-spacing:.06em;
+    background:var(--crimson);color:#fff;border:none;
+    padding:10px 20px;border-radius:6px;cursor:pointer;
+    display:inline-flex;align-items:center;gap:8px;
+    transition:background .2s ease, transform .1s ease;
+  }
+  .run-btn:hover{background:var(--crimson-deep);}
+  .run-btn:active{transform:translateY(1px);}
+  .run-btn.ghost{background:transparent;color:var(--cocoa);border:1px solid var(--card-line);}
+  .run-btn.ghost:hover{background:var(--parchment-2);}
+
+  .control-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px;}
+
+  .demo-shell{
+    background:var(--card);border:1px solid var(--card-line);border-radius:14px;
+    padding:clamp(14px,1.6vw,20px);box-shadow:0 2px 10px var(--shadow);
+  }
+  /* compact interactive slides so they fit common laptop heights */
+  .slide.compact h2{margin-bottom:10px;font-size:clamp(1.5rem,3vw,2.4rem);}
+  .slide.compact > .slide-inner > p{font-size:clamp(.86rem,1.1vw,.98rem);margin-bottom:12px;}
+  .slide.compact .eyebrow{margin-bottom:12px;}
+  .slide.compact .control-row{margin-bottom:14px;}
+
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .small{font-size:.8rem;}
+  .muted{color:var(--ink-soft);}
+  .center{text-align:center;}
+
+  /* code block */
+  pre.code{
+    background:#2A2018;
+    border:1px solid #3C2D1E;
+    border-radius:10px;
+    padding:16px 18px;
+    overflow:auto;
+    font-family:'JetBrains Mono',monospace;
+    font-size:.78rem;
+    line-height:1.55;
+    color:#E9DBC4;
+    max-height:280px;
+  }
+  pre.code .tok-kw{color:#E0967A;}
+  pre.code .tok-fn{color:#E9C46A;}
+  pre.code .tok-str{color:#A8C686;}
+  pre.code .tok-num{color:#D9A6C2;}
+  pre.code .tok-com{color:#8A7A66;font-style:italic;}
+  .code-cap{
+    font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px;display:block;
+  }
+
+  .badge-live{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:600;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--matcha);
+  }
+  .badge-live::before{
+    content:"";width:7px;height:7px;border-radius:50%;background:var(--matcha);
+    box-shadow:0 0 0 0 rgba(126,148,90,.5);animation:pulse 1.8s infinite;
+  }
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(126,148,90,.5);}70%{box-shadow:0 0 0 7px rgba(126,148,90,0);}100%{box-shadow:0 0 0 0 rgba(126,148,90,0);}}
+
+  /* table */
+  table.t{width:100%;border-collapse:collapse;font-size:clamp(.82rem,1.1vw,.96rem);}
+  table.t th{
+    text-align:left;font-family:'JetBrains Mono',monospace;font-size:.66rem;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--card);
+    background:var(--cocoa);padding:10px 14px;font-weight:600;
+  }
+  table.t th:first-child{border-radius:8px 0 0 0;}
+  table.t th:last-child{border-radius:0 8px 0 0;}
+  table.t td{padding:10px 14px;border-bottom:1px solid var(--parchment-line);color:var(--ink-soft);vertical-align:top;}
+  table.t tr:nth-child(even) td{background:var(--parchment-2);}
+  table.t td strong{color:var(--ink);}
+
+  /* canvas containers */
+  .canvas-wrap{
+    background:var(--parchment-2);border:1px solid var(--parchment-line);
+    border-radius:12px;overflow:hidden;
+  }
+  canvas{display:block;width:100%;}
+
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin-top:14px;font-size:.8rem;}
+  .legend span{display:inline-flex;align-items:center;gap:7px;color:var(--ink-soft);}
+  .swatch{width:13px;height:13px;border-radius:3px;display:inline-block;}
+
+  /* classifier chips with explicit bucket buttons */
+  .clf-chip{
+    background:var(--card);border:1px solid var(--card-line);border-radius:9px;
+    padding:7px 12px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;
+    justify-content:space-between;transition:border-color .2s ease, background .2s ease;
+  }
+  .clf-chip .clf-label{font-size:.86rem;color:var(--ink);flex:1;min-width:160px;line-height:1.3;}
+  .clf-pick{display:flex;gap:6px;}
+  .clf-pick button{
+    width:34px;height:28px;border-radius:6px;border:1px solid var(--card-line);
+    background:var(--parchment-2);color:var(--cocoa);cursor:pointer;
+    font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:600;
+    transition:all .15s ease;
+  }
+  .clf-pick button:hover{background:var(--parchment-line);}
+  .clf-pick button.sel{background:var(--crimson);color:#fff;border-color:var(--crimson);}
+  .clf-chip.correct{border-color:var(--matcha);background:rgba(126,148,90,.10);}
+  .clf-chip.wrong{border-color:var(--crimson);background:rgba(178,58,46,.08);}
+  .clf-verdict{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.06em;
+    white-space:nowrap;padding:2px 0;}
+  .clf-verdict.ok{color:#566638;}
+  .clf-verdict.no{color:var(--crimson-deep);}
+
+  /* range slider */
+  .slider-row{display:flex;align-items:center;gap:14px;margin:10px 0;flex-wrap:wrap;}
+  .slider-row label{font-size:.84rem;color:var(--ink);min-width:130px;font-weight:500;}
+  input[type=range]{
+    -webkit-appearance:none;appearance:none;height:6px;border-radius:3px;
+    background:var(--parchment-line);flex:1;min-width:140px;cursor:pointer;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;
+    background:var(--crimson);cursor:pointer;border:3px solid var(--card);
+    box-shadow:0 1px 4px var(--shadow-strong);
+  }
+  input[type=range]::-moz-range-thumb{
+    width:20px;height:20px;border-radius:50%;background:var(--crimson);cursor:pointer;
+    border:3px solid var(--card);
+  }
+  .slider-val{font-family:'JetBrains Mono',monospace;font-size:.84rem;font-weight:600;
+    color:var(--crimson);min-width:48px;text-align:right;}
+
+  /* segmented toggle */
+  .seg{display:inline-flex;border:1px solid var(--card-line);border-radius:8px;overflow:hidden;}
+  .seg button{
+    border:none;background:var(--card);color:var(--cocoa);cursor:pointer;
+    font-family:'JetBrains Mono',monospace;font-size:.74rem;font-weight:600;
+    padding:8px 14px;transition:all .15s ease;
+  }
+  .seg button.on{background:var(--cocoa);color:#fff;}
+  .seg button + button{border-left:1px solid var(--card-line);}
+
+  /* output console */
+  .console{
+    background:#241B14;border:1px solid #3A2C1D;border-radius:10px;
+    font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:1.6;
+    color:#E9DBC4;padding:14px 16px;min-height:56px;max-height:220px;overflow:auto;
+  }
+  .console .ok{color:#A8C686;}
+  .console .hot{color:#E0967A;}
+  .console .dim{color:#8A7A66;}
+  .console .num{color:#D9A6C2;}
+
+  /* quiz option */
+  .quiz-opt{
+    display:block;width:100%;text-align:left;background:var(--card);
+    border:1px solid var(--card-line);border-radius:9px;padding:12px 16px;margin-bottom:9px;
+    cursor:pointer;font-size:.92rem;color:var(--ink);transition:all .15s ease;font-family:inherit;
+  }
+  .quiz-opt:hover{border-color:var(--cocoa);background:var(--parchment-2);}
+  .quiz-opt.correct{border-color:var(--matcha);background:rgba(126,148,90,.12);}
+  .quiz-opt.wrong{border-color:var(--crimson);background:rgba(178,58,46,.08);}
+  .quiz-opt .mark{font-family:'JetBrains Mono',monospace;font-weight:600;margin-right:8px;color:var(--cocoa);}
+
+  /* fact tag */
+  .stat-mini{display:flex;gap:18px;flex-wrap:wrap;margin-top:6px;}
+  .stat-mini .sm{background:var(--parchment-2);border:1px solid var(--parchment-line);
+    border-radius:9px;padding:10px 14px;}
+  .stat-mini .sm b{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--crimson);display:block;line-height:1;}
+  .stat-mini .sm span{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-soft);}
+
+  /* map dots for cultural distance */
+  .flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .flow .node{background:var(--card);border:1px solid var(--card-line);border-radius:8px;
+    padding:8px 12px;font-size:.82rem;color:var(--ink);font-weight:500;}
+  .flow .arr{color:var(--cocoa);font-size:1.1rem;}
+
+  /* two-col definition */
+  .deflist dt{font-family:'Fraunces',serif;font-weight:600;color:var(--cocoa);font-size:1rem;margin-top:12px;}
+  .deflist dt:first-child{margin-top:0;}
+  .deflist dd{font-size:.9rem;color:var(--ink-soft);line-height:1.5;margin-top:3px;}
+
+  .section-divider .slide-inner{text-align:left;}
+  .section-divider .big-num{
+    font-family:'JetBrains Mono',monospace;font-size:.8rem;letter-spacing:.3em;
+    color:var(--crimson);text-transform:uppercase;margin-bottom:18px;
+  }
+  .section-divider h1{font-size:clamp(2.2rem,5.5vw,4.4rem);}
+  .section-divider .sub{font-family:'Fraunces',serif;font-style:italic;color:var(--cocoa);
+    font-size:clamp(1.1rem,2vw,1.5rem);margin-top:14px;max-width:62ch;}
+
+  /* responsive */
+  @media (max-width:880px){
+    .g2,.g3,.g4{grid-template-columns:1fr;}
+    .arrow{display:none;}
+    .stat-row{gap:22px;}
+  }
+  @media (max-height:680px){
+    .slide{padding-top:clamp(20px,3vh,40px);padding-bottom:clamp(48px,5vh,64px);}
+    h1{font-size:clamp(2rem,5vw,3.6rem);}
+    h2{font-size:clamp(1.4rem,3vw,2.2rem);margin-bottom:14px;}
+    pre.code{max-height:200px;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .slide{transition:opacity .2s ease;transform:none;}
+    .badge-live::before{animation:none;}
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- ============ 01 · TITLE ============ -->
+  <section class="slide title-slide active">
+    <div class="slide-inner">
+      <span class="kk-tag">MKTG 416 · Global Marketing Strategy · Chapter 2</span>
+      <h1>Culture in International Marketing</h1>
+      <div class="subtitle">A complete walk through Chapter 2 — anchored by the case of KitKat in Japan: accidental success in a foreign market</div>
+      <div class="byline">
+        <span class="who">Naomie Bambara</span> &nbsp;·&nbsp; Chapter 2 + Case 2 &nbsp;·&nbsp; Baack &amp; Baack, <em>International Marketing</em> (2nd ed.)
+      </div>
+      <div class="stat-row">
+        <div class="stat"><div class="num">160+</div><div class="lbl">definitions of culture in English</div></div>
+        <div class="stat"><div class="num">1973</div><div class="lbl">KitKat enters Japan</div></div>
+        <div class="stat"><div class="num">300+</div><div class="lbl">flavours created for Japan</div></div>
+        <div class="stat"><div class="num">5M</div><div class="lbl">bars eaten in Japan daily</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 02 · ROADMAP ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">How this deck runs</div>
+      <h2>Read the chapter, then run it</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div>
+          <p class="lead" style="margin-bottom:16px;">Chapter 2 explains how culture shapes consumer behaviour and the marketing mix. This presentation works through every section of the chapter, then applies it to the KitKat case.</p>
+          <p>Throughout, you'll hit <strong>live programs</strong> — small pieces of code that run directly in the slide. Click, toggle, and drag to see the chapter's models work on real markets. Nothing to install.</p>
+        </div>
+        <div class="card accent">
+          <h3>What you can run in here</h3>
+          <ul class="clean">
+            <li><strong>Culture Builder</strong> — see history + geography shape a culture</li>
+            <li><strong>Hofstede &amp; GLOBE</strong> comparators across markets</li>
+            <li><strong>Schwartz value sorter</strong> &amp; <strong>time-orientation matcher</strong></li>
+            <li><strong>Cultural-distance calculator</strong> from the chapter's index</li>
+            <li><strong>Behaviour classifier</strong> (imperatives / electives / exclusives)</li>
+            <li><strong>KitKat adaptation engine</strong> &amp; <strong>flavour-market simulator</strong></li>
+          </ul>
+          <div style="margin-top:12px;"><span class="badge-live">8 interactive programs · all client-side</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 03 · LEARNING OBJECTIVES ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Chapter 2 · Learning Objectives</div>
+      <h2>Three questions the chapter answers</h2>
+      <div class="grid g3">
+        <div class="card cocoa">
+          <div class="q-num" style="font-size:2.4rem;">01</div>
+          <p style="margin-top:8px;">How do culture and its elements affect <strong>consumer behaviour and marketing</strong>?</p>
+        </div>
+        <div class="card cocoa">
+          <div class="q-num" style="font-size:2.4rem;">02</div>
+          <p style="margin-top:8px;">What are the main <strong>models of cross-cultural difference</strong>, and how do they help managers decide?</p>
+        </div>
+        <div class="card cocoa">
+          <div class="q-num" style="font-size:2.4rem;">03</div>
+          <p style="margin-top:8px;">Why examine <strong>cultural imperatives, electives, and exclusives</strong> when entering a host country?</p>
+        </div>
+      </div>
+      <p style="margin-top:22px;max-width:74ch;">Keep these in view. Every model that follows — Hofstede, GLOBE, Schwartz, time orientation, the three-cultures world — is a tool for answering them, and the KitKat case is the worked example.</p>
+    </div>
+  </section>
+
+  <!-- ============ 04 · INTERNATIONAL MARKETING CONTEXT ============ -->
+  <section class="slide compact">
+    <div class="slide-inner">
+      <div class="eyebrow">Overview · The International Marketing Context</div>
+      <h2>Culture sits around the marketing mix</h2>
+      <p style="max-width:80ch;">Figure 2.1 places the 4 Ps and the market at the centre, ringed by the forces that complicate international decisions. What works in one country may fail in another.</p>
+      <div class="canvas-wrap" style="padding:16px;margin-top:8px;">
+        <canvas id="ctx-canvas" width="960" height="300" aria-label="International marketing context diagram"></canvas>
+      </div>
+      <p class="mono small muted" style="margin-top:10px;">Culture · Language · Political &amp; Legal Systems · Economic Systems · Infrastructure — all bear on Product, Price, Place, Promotion.</p>
+    </div>
+  </section>
+
+  <!-- ============ 05 · DEFINITIONS OF CULTURE ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">The Many Definitions of Culture</div>
+      <h2>One word, 160+ meanings</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div>
+          <p style="margin-bottom:14px;">Culture is the <strong>human-made part of the environment</strong>. It can describe a nation, a region, a city, or a single business, and it shapes business, marketing, and consumption alike.</p>
+          <div class="quote">
+            “The ideas, values, practices, and material objects that allow a group of people, even an entire society, to carry out their collective lives in relative order and harmony.”
+            <span class="src">Ritzer, 2015 — cited in Baack &amp; Baack Ch. 2</span>
+          </div>
+        </div>
+        <div class="card accent">
+          <h3>Selected definitions (Table 2.1)</h3>
+          <ul class="clean">
+            <li>The arts and manifestations of human intellectual achievement</li>
+            <li>The general customs and beliefs of a group at a particular time</li>
+            <li><strong>Hofstede:</strong> “the collective programming of the mind” that distinguishes one group from another</li>
+            <li><strong>Neuliep:</strong> the framework in which humans organise thoughts, emotions, and behaviour</li>
+          </ul>
+          <p class="small muted" style="margin-top:8px;">Culture splits into <strong>material</strong> and <strong>subjective</strong> (symbolic) culture — with no clean line between them.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 06 · MATERIAL CULTURE ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Material Culture</div>
+      <h2>The physical things people make and use</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div>
+          <p style="margin-bottom:12px;"><strong>Material culture</strong> = clothing, food, houses, tools, machines, art, buildings. Physical objects define members' behaviours and perceptions.</p>
+          <ul class="clean">
+            <li><strong>Clothing</strong> protects (light cotton in India, warm layers in northern Canada) and signals status. Many Poles iron even casual clothes; many Americans value comfort.</li>
+            <li><strong>Technology</strong> is vital material culture in developed economies — students must master computers to function.</li>
+            <li><strong>Sweets are material culture</strong> — the KitKat connection starts here.</li>
+          </ul>
+        </div>
+        <div class="card matcha">
+          <h3>Why it matters to marketers</h3>
+          <p>The study of material culture asks how consumers <strong>relate to, use, and value</strong> objects. Product design, packaging, and the whole mix must fit those physical realities.</p>
+          <p style="margin-top:10px;" class="small muted">Japanese furniture, for instance, tends to be austere, functional, and low to the ground — an aesthetic that flows straight into product design choices.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 · DIETARY PREFERENCES ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Material Culture · Dietary Preferences</div>
+      <h2>Food is culture you can taste</h2>
+      <p style="max-width:80ch;margin-bottom:16px;">Cultural dictates shape <em>when</em> people eat, <em>what</em> counts as a delicacy, and <em>which</em> foods are forbidden. McDonald's India serves no beef or pork — patrons order a Chicken Maharaja Mac instead.</p>
+      <table class="t">
+        <thead><tr><th>Dietary system</th><th>What it means for product &amp; menu</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Kashrut</strong></td><td>Jewish law; kosher foods are “fit,” excluding some meats including pork. Rabbis supervise production.</td></tr>
+          <tr><td><strong>Halal</strong></td><td>Muslim law; <em>haraam</em> (forbidden) foods include pork and alcohol.</td></tr>
+          <tr><td><strong>Hindu dietary law</strong></td><td>Avoid beef; stricter Hindus avoid all meat, some avoid dairy or eggs.</td></tr>
+          <tr><td><strong>Vegetarian / vegan</strong></td><td>Lacto-ovo, ovo, lacto, and vegan variants — each excludes different animal products.</td></tr>
+        </tbody>
+      </table>
+      <p class="small muted" style="margin-top:12px;">Americans increasingly choose fat-free options; most European consumers prefer full-fat versions of the same product (Aubrey, 2014).</p>
+    </div>
+  </section>
+
+  <!-- ============ 08 · SUBJECTIVE CULTURE ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Subjective Culture</div>
+      <h2>The symbolic side: ideas, values, beliefs</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div>
+          <p style="margin-bottom:12px;"><strong>Subjective culture</strong> consists of ideas worth passing to the next generation — language, and economic, educational, political, legal, philosophical, and religious systems, plus aesthetics and unstated assumptions.</p>
+          <p>These beliefs shape how people behave as consumers and how they respond to marketing stimuli. This is where “kitto katsu” and gift-giving rituals live.</p>
+        </div>
+        <div class="card cocoa">
+          <h3>Elements of subjective culture (Table 2.3)</h3>
+          <dl class="deflist">
+            <dt>Language</dt><dd>Official languages and local dialects</dd>
+            <dt>Values</dt><dd>Strongly held concepts present in a group</dd>
+            <dt>Norms</dt><dd>Social rules that reflect cultural values</dd>
+            <dt>Folkways &amp; mores</dt><dd>Customs that dictate how people act socially</dd>
+            <dt>Roles &amp; schemas</dt><dd>The “parts” and “scripts” members play in daily life</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 09 · ORIGINS: HISTORY ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Origins of Culture · History</div>
+      <h2>Traditions form slowly, then resist change</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div>
+          <p style="margin-bottom:12px;">Language, dialect, and slang have roots centuries deep and evolve with the nation. French in Quebec differs from French in France — so Disney launched <em>La chaîne Disney</em> for Canadian Francophones, and KFC becomes <em>Poulet Frit Kentucky</em> by law.</p>
+          <p>Customs and rituals tie closely to religion and social institutions: lunar new-year traditions in East Asia, Ramadan where Islam prevails, even secular festivals like Spain's <em>La Tomatina</em>.</p>
+        </div>
+        <div class="card gold">
+          <h3>Cultural characteristics (Table 2.4)</h3>
+          <ul class="clean">
+            <li>Language, dialects, slang</li>
+            <li>Customs and rituals</li>
+            <li>Religions</li>
+            <li>Social institutions and practices</li>
+            <li>Political sphere</li>
+            <li>Common attitudes and beliefs</li>
+            <li>Aesthetics (concepts about beauty)</li>
+            <li>Views toward education</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 10 · ORIGINS: GEOGRAPHY ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Origins of Culture · Geography</div>
+      <h2>Land, climate, and contact shape custom</h2>
+      <div class="grid g4">
+        <div class="card">
+          <h3>Topography</h3>
+          <p class="small">Mountains separate people, producing distinct languages — Switzerland's isolation yields four official tongues.</p>
+        </div>
+        <div class="card">
+          <h3>Population density</h3>
+          <p class="small">~half the world lives within 200 km of water. Density creates target markets for stores and services.</p>
+        </div>
+        <div class="card">
+          <h3>Climate</h3>
+          <p class="small">Cold climates centre life on hunting and warmth; hot climates favour outdoor life and siestas.</p>
+        </div>
+        <div class="card">
+          <h3>Access to others</h3>
+          <p class="small">Trade routes like the Silk Road spread ideas — Buddhism reached East Asia from India along it.</p>
+        </div>
+      </div>
+      <p style="margin-top:20px;max-width:76ch;">Surfing began in Polynesian culture, made possible by tropical islands surrounded by water, then spread to California in the 1930s. <strong>Geography seeds the customs a brand must later respect.</strong></p>
+    </div>
+  </section>
+
+  <!-- ============ 11 · INTERACTIVE: CULTURE BUILDER ============ -->
+  <section class="slide compact">
+    <div class="slide-inner">
+      <div class="eyebrow">Interactive · 1 of 8 &nbsp;<span class="badge-live">runs live</span></div>
+      <h2>Culture Builder: inputs → traditions</h2>
+      <p style="max-width:80ch;">Set a region's history and geography. The program derives the cultural traits the chapter says should emerge — and flags the marketing implications.</p>
+      <div class="demo-shell">
+        <div class="grid g2" style="gap:20px;align-items:start;">
+          <div>
+            <div class="slider-row"><label>Climate</label>
+              <span class="seg" id="cb-climate">
+                <button class="on" data-v="cold">Cold</button>
+                <button data-v="temperate">Temperate</button>
+                <button data-v="hot">Hot</button>
+              </span>
+            </div>
+            <div class="slider-row"><label>Terrain</label>
+              <span class="seg" id="cb-terrain">
+                <button class="on" data-v="coastal">Coastal</button>
+                <button data-v="plains">Plains</button>
+                <button data-v="mountain">Mountainous</button>
+              </span>
+            </div>
+            <div class="slider-row"><label>Trade contact</label>
+              <span class="seg" id="cb-trade">
+                <button class="on" data-v="high">High</button>
+                <button data-v="low">Low / isolated</button>
+              </span>
+            </div>
+            <div class="slider-row"><label>Dominant religion</label>
+              <span class="seg" id="cb-relig">
+                <button class="on" data-v="one">One</button>
+                <button data-v="many">Many</button>
+              </span>
+            </div>
+            <button class="run-btn" id="cb-run" style="margin-top:8px;">▶ Derive culture</button>
+          </div>
+          <div>
+            <div class="console" id="cb-out"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 12 · HOFSTEDE DIMENSIONS ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">LO #2 · Culture &amp; Values</div>
+      <h2>Hofstede's five value dimensions</h2>
+      <p style="max-width:82ch;margin-bottom:14px;">For years the most-cited model. Collected in the late 1960s — useful but used with caution, as the data predate the PC, the internet, and the fall of communism.</p>
+      <table class="t">
+        <thead><tr><th>Dimension</th><th>What it measures</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Power distance</strong></td><td>Distance between leaders and followers; authoritarian vs. collaborative.</td></tr>
+          <tr><td><strong>Individualism–collectivism</strong></td><td>Personal needs vs. the group's needs.</td></tr>
+          <tr><td><strong>Masculinity–femininity</strong></td><td>Competition &amp; achievement vs. harmony &amp; quality of life.</td></tr>
+          <tr><td><strong>Uncertainty avoidance</strong></td><td>Risk-taking vs. risk-avoiding societies.</td></tr>
+          <tr><td><strong>Short / long-term orientation</strong></td><td>Immediate vs. distant, strategic outcomes.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ 13 · INTERACTIVE: HOFSTEDE ============ -->
+  <section class="slide compact">
+    <div class="slide-inner">
+      <div class="eyebrow">Interactive · 2 of 8 &nbsp;<span class="badge-live">runs live</span></div>
+      <h2>Compare Hofstede scores across markets</h2>
+      <p style="max-width:80ch;">Toggle markets to see why a single global campaign lands differently. National indices follow the chapter's tradition (Table 2.7).</p>
+      <div class="demo-shell">
+        <div class="control-row">
+          <span class="mono small muted">Markets:</span>
+          <button class="run-btn" data-h="Japan">Japan</button>
+          <button class="run-btn ghost" data-h="UK">UK</button>
+          <button class="run-btn ghost" data-h="Mexico">Mexico</button>
+          <button class="run-btn ghost" data-h="Poland">Poland</button>
+          <button class="run-btn ghost" data-h="USA">USA</button>
+        </div>
+        <div class="canvas-wrap" style="padding:10px 14px;">
+          <canvas id="hof-canvas" width="960" height="250" aria-label="Hofstede comparison chart"></canvas>
+        </div>
+        <div id="hof-insight" class="card" style="margin-top:12px;padding:12px 18px;border-left:3px solid var(--crimson);max-height:92px;overflow-y:auto;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 14 · PROJECT GLOBE ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Culture &amp; Values · Project GLOBE</div>
+      <h2>A modern answer to Hofstede's critics</h2>
+      <p style="max-width:82ch;margin-bottom:14px;">Project GLOBE is an international effort to update and extend cultural measurement. Like Hofstede, it builds awareness of differences across marketing strategy.</p>
+      <div class="grid g3">
+        <div class="card cocoa"><h3>Power distance</h3><p class="small">Comfort with power and status differences.</p></div>
+        <div class="card cocoa"><h3>Uncertainty avoidance</h3><p class="small">Reliance on norms &amp; rules to reduce unpredictability.</p></div>
+        <div class="card cocoa"><h3>Humane orientation</h3><p class="small">Rewarding fairness, altruism, and generosity.</p></div>
+        <div class="card cocoa"><h3>Institutional &amp; in-group collectivism</h3><p class="small">Collective resource distribution; pride &amp; loyalty to groups and families.</p></div>
+        <div class="card cocoa"><h3>Assertiveness &amp; gender egalitarianism</h3><p class="small">Dominant behaviour; effort to limit gender inequality.</p></div>
+        <div class="card cocoa"><h3>Future &amp; performance orientation</h3><p class="small">Delaying gratification; rewarding excellence.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 15 · APPLYING CULTURAL VALUES ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Applying Cultural Values to Marketing</div>
+      <h2>From scores to segmentation — carefully</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div>
+          <ul class="clean">
+            <li>Cultural-dimension scores give a <strong>broad conceptualization</strong> of a country's values.</li>
+            <li>They guide <strong>international market segmentation</strong> and how to reach target markets.</li>
+            <li>Over <strong>600 articles</strong> link Hofstede's values to behaviour — best predicting emotional responses, then attitudes, perceptions, behaviours.</li>
+          </ul>
+        </div>
+        <div class="card accent">
+          <h3>Use with caution</h3>
+          <p>Frameworks don't predict behaviour straightforwardly. Treat dimensions as a <strong>continuum, not extremes</strong> — no culture is purely individualistic or collectivistic.</p>
+          <p class="small muted" style="margin-top:10px;">Watch for cultural paradoxes: consumers from individualistic cultures may still prefer collectivistic appeals.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 16 · SCHWARTZ VALUES ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Value Levels · Schwartz</div>
+      <h2>Ten individual-level values</h2>
+      <p style="max-width:82ch;margin-bottom:14px;">Where Hofstede and GLOBE work at the national level, Schwartz works at the <strong>individual</strong> level — values rooted in biological needs, social interaction, and group survival (Table 2.8).</p>
+      <div class="grid g2" style="align-items:start;gap:16px;">
+        <table class="t">
+          <thead><tr><th>Value</th><th>Focus</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Power</strong></td><td>Social status, prestige, dominance</td></tr>
+            <tr><td><strong>Achievement</strong></td><td>Personal success &amp; proficiency</td></tr>
+            <tr><td><strong>Hedonism</strong></td><td>Personal pleasure</td></tr>
+            <tr><td><strong>Stimulation</strong></td><td>Excitement, adventure, challenge</td></tr>
+            <tr><td><strong>Self-direction</strong></td><td>Independence in thought &amp; action</td></tr>
+          </tbody>
+        </table>
+        <table class="t">
+          <thead><tr><th>Value</th><th>Focus</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Universalism</strong></td><td>Protecting all people &amp; nature</td></tr>
+            <tr><td><strong>Benevolence</strong></td><td>Welfare of close contacts</td></tr>
+            <tr><td><strong>Tradition</strong></td><td>Respect &amp; preservation of culture</td></tr>
+            <tr><td><strong>Conformity</strong></td><td>Maintaining order &amp; social norms</td></tr>
+            <tr><td><strong>Security</strong></td><td>Safety, harmony, stability</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 17 · INTERACTIVE: SCHWARTZ SORTER ============ -->
+  <section class="slide compact">
+    <div class="slide-inner">
+      <div class="eyebrow">Interactive · 3 of 8 &nbsp;<span class="badge-live">runs live</span></div>
+      <h2>Value sorter: individualist or collectivist?</h2>
+      <p style="max-width:80ch;">Schwartz's values split into personal (individualist) vs. group (collectivist) interests. Tap each value to classify it — the program scores you against the chapter.</p>
+      <div class="demo-shell">
+        <div id="sw-pool" class="grid g2" style="gap:10px;"></div>
+        <div class="control-row" style="margin-top:16px;margin-bottom:0;">
+          <button class="run-btn" id="sw-check">Check classification</button>
+          <button class="run-btn ghost" id="sw-reset">Reset</button>
+          <span id="sw-score" class="mono small muted"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 18 · TIME ORIENTATION: MONO/POLY ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Time Orientation · Task Scheduling</div>
+      <h2>Monochronic vs. polychronic time</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div class="card accent">
+          <h3>Monochronic</h3>
+          <p>Time is a line cut into blocks. One task at a time; interruptions cause chaos; schedules and punctuality matter. <strong>Most Western countries.</strong></p>
+        </div>
+        <div class="card matcha">
+          <h3>Polychronic</h3>
+          <p>Time is flexible; many tasks run at once; schedules bend when a task needs more time.</p>
+        </div>
+      </div>
+      <p style="margin-top:18px;max-width:78ch;">These orientations matter for B2B buyer–seller relationships, scheduling deliveries, and timing promotional campaigns (Usunier &amp; Lee, 2009).</p>
+    </div>
+  </section>
+
+  <!-- ============ 19 · TIME ORIENTATION: PAST/PRESENT/FUTURE ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Time Orientation · Temporal Focus</div>
+      <h2>Past, present, and future cultures</h2>
+      <div class="grid g3">
+        <div class="card cocoa">
+          <h3>Past-oriented</h3>
+          <p class="small">Value tradition, history, elders. Many European &amp; Asian countries. Loans less popular — elders help fund homes &amp; education.</p>
+        </div>
+        <div class="card gold">
+          <h3>Present-oriented</h3>
+          <p class="small">Time is cyclical; the future can't be controlled. <strong>Mexico.</strong> Consumers want to enjoy now — "buy now, pay later" works.</p>
+        </div>
+        <div class="card matcha">
+          <h3>Future-oriented</h3>
+          <p class="small">Plan, save, delay gratification. <strong>USA.</strong> Retirement planning and long-term framing resonate.</p>
+        </div>
+      </div>
+      <p style="margin-top:18px;max-width:80ch;">A study of credit-purchase appeals across the USA, China, and Mexico found each market needs a <strong>different message</strong>: future benefits in the US, away-from-tradition themes in China, present benefits in Mexico (Spears et al., 2000).</p>
+    </div>
+  </section>
+
+  <!-- ============ 20 · INTERACTIVE: TIME-ORIENTATION MATCHER ============ -->
+  <section class="slide compact">
+    <div class="slide-inner">
+      <div class="eyebrow">Interactive · 4 of 8 &nbsp;<span class="badge-live">runs live</span></div>
+      <h2>Campaign matcher: pick the right appeal</h2>
+      <p style="max-width:80ch;">A "buy now, enjoy now" promotion needs different framing per market. Choose a market, then pick the appeal the chapter recommends. The program tells you if it would land.</p>
+      <div class="demo-shell">
+        <div class="control-row">
+          <span class="seg" id="tm-market">
+            <button class="on" data-m="USA">🇺🇸 USA (future)</button>
+            <button data-m="China">🇨🇳 China (past)</button>
+            <button data-m="Mexico">🇲🇽 Mexico (present)</button>
+          </span>
+        </div>
+        <div id="tm-options"></div>
+        <div class="console" id="tm-out" style="margin-top:14px;">Pick a market and an appeal to test it.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 21 · THREE CULTURES WORLD ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Three Cultures World</div>
+      <h2>Honor, achievement, and joy</h2>
+      <p style="max-width:82ch;margin-bottom:14px;">From the World Values Survey: a view of the world as three main cultural groups, each rewarding a different marketing approach (Basanez, 2016).</p>
+      <div class="grid g3">
+        <div class="card accent">
+          <h3>Honor</h3>
+          <p class="small">Religion, tradition, hierarchy, strong authority. Group over individual. Driver: the state.</p>
+          <p class="small muted" style="margin-top:8px;">→ Advertise products that <strong>enhance social status</strong>.</p>
+        </div>
+        <div class="card matcha">
+          <h3>Achievement</h3>
+          <p class="small">Egalitarianism, individualism, efficiency, productivity; secular. Driver: the market.</p>
+          <p class="small muted" style="margin-top:8px;">→ <strong>Hard sell</strong>, performance &amp; effectiveness appeals.</p>
+        </div>
+        <div class="card gold">
+          <h3>Joy</h3>
+          <p class="small">Well-being, social responsibility, quality of life; private religion. Driver: the family.</p>
+          <p class="small muted" style="margin-top:8px;">→ <strong>Soft sell</strong>: fun, happiness, relaxation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 22 · INTERACTIVE: THREE-CULTURES EXPLORER ============ -->
+  <section class="slide compact">
+    <div class="slide-inner">
+      <div class="eyebrow">Interactive · 5 of 8 &nbsp;<span class="badge-live">runs live</span></div>
+      <h2>Three-cultures explorer</h2>
+      <p style="max-width:80ch;">Pick a culture type to see its drivers, priorities, prevalent regions (Table 2.10) and the top countries that exemplify it (Table 2.11) — plus the recommended sell strategy.</p>
+      <div class="demo-shell">
+        <div class="control-row">
+          <span class="seg" id="tc-type">
+            <button class="on" data-t="honor">Honor</button>
+            <button data-t="achievement">Achievement</button>
+            <button data-t="joy">Joy</button>
+          </span>
+        </div>
+        <div class="grid g2" style="gap:18px;align-items:start;">
+          <div id="tc-detail"></div>
+          <div>
+            <span class="code-cap">Top 10 countries</span>
+            <div id="tc-countries" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 23 · GLOBAL & LOCAL INFLUENCES ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Global &amp; Local Cultural Influences</div>
+      <h2>Hybridization: homogeneity and difference at once</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div>
+          <p style="margin-bottom:12px;">Media, music, and technology spread fast — Netflix reaches 190 countries. Local and global forces mix into new forms: <strong>hybridization</strong>.</p>
+          <p>Some embrace global influence; others resist it. The <strong>Slow Food movement</strong> (Italy) pushes back, defending regional food traditions against global brands.</p>
+        </div>
+        <div class="card cocoa">
+          <h3>Two reactions to global culture</h3>
+          <ul class="clean">
+            <li><strong>Reject</strong> — oppose global-brand values (Slow Food).</li>
+            <li><strong>Embrace</strong> — buy global brands as a marker of quality and shared global identity.</li>
+          </ul>
+          <p class="small muted" style="margin-top:10px;">For many consumers, global brands (Table 2.12: Apple, Google, Coca-Cola…) form part of their social identity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 24 · CONSUMER CULTURE ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Consumer Culture</div>
+      <h2>When consumption becomes meaning</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div class="card accent">
+          <h3>Consumer culture</h3>
+          <p>Consumption &amp; possessions become the primary source of meaning. Rooted in department stores and world's fairs; now dominant in Western societies. Marketing principles spread to education, health care, even politics.</p>
+        </div>
+        <div class="card matcha">
+          <h3>Global consumer culture</h3>
+          <p>A globally recognised set of consumption behaviours, values, and brands. Critics argue global brands distort competition and create unrealistic aspirations (Benady, 2008).</p>
+        </div>
+      </div>
+      <p style="margin-top:18px;max-width:80ch;">The tension between global consumer culture and local resistance is exactly the terrain KitKat navigates — a global brand that earns its place by respecting local meaning.</p>
+    </div>
+  </section>
+
+  <!-- ============ 25 · CULTURAL & PSYCHIC DISTANCE ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Cultural Distance &amp; Psychic Distance</div>
+      <h2>How far apart are two markets?</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div class="card cocoa">
+          <h3>Cultural distance</h3>
+          <p>The degree to which values, norms, and beliefs differ between two countries — measured via economic development, education, language, and cultural dimensions. <strong>Outside the firm's control.</strong></p>
+        </div>
+        <div class="card gold">
+          <h3>Psychic distance</h3>
+          <p>An <em>individual's</em> subjective perception of the gap between home and foreign market. Shapes which markets and products managers favour — and <strong>can be addressed</strong> by selecting staff with low psychic distance.</p>
+        </div>
+      </div>
+      <p style="margin-top:18px;max-width:80ch;">Managers with more positive perceptions of a foreign market are likelier to succeed there. A good match raises the firm's probability of success (Sousa &amp; Bradley, 2006).</p>
+    </div>
+  </section>
+
+  <!-- ============ 26 · INTERACTIVE: CULTURAL DISTANCE CALCULATOR ============ -->
+  <section class="slide compact">
+    <div class="slide-inner">
+      <div class="eyebrow">Interactive · 6 of 8 &nbsp;<span class="badge-live">runs live</span></div>
+      <h2>Cultural-distance calculator</h2>
+      <p style="max-width:80ch;">Pick two European markets to read their cultural-distance index from the chapter's matrix (Table 2.13, Kaasa et al. 2016), with a plain-language reading.</p>
+      <div class="demo-shell">
+        <div class="control-row">
+          <label class="mono small muted">From <select id="cd-a" class="seg" style="padding:6px;border-radius:6px;"></select></label>
+          <label class="mono small muted">To <select id="cd-b" class="seg" style="padding:6px;border-radius:6px;"></select></label>
+        </div>
+        <div class="canvas-wrap" style="padding:16px;">
+          <canvas id="cd-canvas" width="960" height="170" aria-label="Cultural distance gauge"></canvas>
+        </div>
+        <div id="cd-read" class="card" style="margin-top:12px;padding:12px 18px;border-left:3px solid var(--crimson);"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 27 · CULTURE & BEHAVIORS ============ -->
+  <section class="slide section-divider">
+    <div class="slide-inner">
+      <div class="big-num">Learning Objective #3</div>
+      <h1>Culture &amp; Behaviors</h1>
+      <div class="sub">From greeting a stranger to closing a deal — culture governs the behaviours that make or break business relationships. The chapter sorts them into three buckets.</div>
+    </div>
+  </section>
+
+  <!-- ============ 28 · IMPERATIVES / ELECTIVES / EXCLUSIVES ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Behaviours · Three Categories</div>
+      <h2>Imperatives, electives, and exclusives</h2>
+      <div class="grid g3">
+        <div class="card accent">
+          <h3>Imperatives</h3>
+          <p class="small">Customs you <strong>must</strong> meet or <strong>must avoid</strong> for success. Building friendship before business (guanxi, ningen kankei). In Japan, prolonged eye contact offends; in Arab/Latin cultures, weak eye contact reads as evasive.</p>
+        </div>
+        <div class="card matcha">
+          <h3>Electives</h3>
+          <p class="small">Customs you <strong>may</strong>, but need not, follow. A symbolic bow, accepting a business card with two hands, greeting in the local language. Optional, but they build rapport.</p>
+        </div>
+        <div class="card gold">
+          <h3>Exclusives</h3>
+          <p class="small">Customs <strong>reserved for locals</strong> — outsiders are barred. Religious ceremonies; a males-only mosque at the Taj Mahal; Parliament access limited for foreign visitors.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 29 · INTERACTIVE: BEHAVIOUR CLASSIFIER (FIXED) ============ -->
+  <section class="slide compact">
+    <div class="slide-inner">
+      <div class="eyebrow">Interactive · 7 of 8 &nbsp;<span class="badge-live">runs live</span></div>
+      <h2>Behaviour classifier</h2>
+      <p style="max-width:80ch;">For each behaviour, tap <strong>I</strong> (imperative), <strong>E</strong> (elective), or <strong>X</strong> (exclusive). Then check your answers against the textbook.</p>
+      <div class="demo-shell">
+        <div id="bc-list" style="display:grid;gap:7px;"></div>
+        <div class="control-row" style="margin-top:16px;margin-bottom:0;">
+          <button class="run-btn" id="bc-check">Check answers</button>
+          <button class="run-btn ghost" id="bc-reset">Reset</button>
+          <span id="bc-score" class="mono small muted"></span>
+        </div>
+        <p class="small muted" style="margin-top:10px;"><b>I</b> = must do / must avoid &nbsp;·&nbsp; <b>E</b> = may do, optional &nbsp;·&nbsp; <b>X</b> = locals only</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 30 · SUBCULTURES & COUNTERCULTURES ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Subcultures &amp; Countercultures</div>
+      <h2>Worlds within the dominant culture</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div class="card cocoa">
+          <h3>Subcultures</h3>
+          <p>Distinct values &amp; behaviours that still fit the dominant culture — ethnic groups, religious subgroups. <strong>Microcultures</strong> are smaller groups within them.</p>
+          <p class="small muted" style="margin-top:10px;">Marketing angle: Kingfisher Beer markets to Indian immigrants <em>and</em> locals in the UK — one of its ten fastest-growing beer brands there.</p>
+        </div>
+        <div class="card accent">
+          <h3>Countercultures</h3>
+          <p>Values that set members <strong>in opposition</strong> to the dominant culture — challenging its core values, or simply choosing different lifestyles (vegans, the Amish avoiding advanced technology).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 31 · CULTURAL CHANGE ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Cultural Change</div>
+      <h2>Even traditional cultures shift</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div>
+          <p style="margin-bottom:12px;">Cultures change slowly, but they change. Social media reshapes worldviews; Saudi Arabia's move to allow women to drive opened a fresh market for car sellers.</p>
+          <p>Two ways a marketing team can respond:</p>
+          <ul class="clean" style="margin-top:8px;">
+            <li><strong>Cultural congruence</strong> — design for the current culture, adjust only as it shifts.</li>
+            <li><strong>Promote change</strong> — riskier; can offend society or government.</li>
+          </ul>
+        </div>
+        <div class="card gold">
+          <h3>Pizza Hut in China</h3>
+          <p>Consumers once tried eating pizza with chopsticks. Pizza Hut made its menu congruent with local taste — adding non-pizza dishes, wine, local fish, flower-petal flavours, even a duck-topped pizza.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 32 · AESTHETICS & RELIGION ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Culture &amp; Purchasing · Aesthetics &amp; Religion</div>
+      <h2>Beauty and belief drive purchases</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div class="card matcha">
+          <h3>Aesthetics</h3>
+          <p>Concepts of beauty shape cosmetics, clothing, jewellery, models, and design. Many Japanese consumers idealise thinness (the seaweed-based <em>kanten</em> diet); many African cultures view a heavier body as healthier and more attractive.</p>
+        </div>
+        <div class="card accent">
+          <h3>Religion</h3>
+          <p>One dominant religion simplifies adaptation; multiple religions complicate it. Chicken Cottage grew to 140 UK outlets with halal food that also appeals to non-Muslims. Unilever pulled a Lux billboard within 24 hours after a rabbi objected.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 33 · ETHICS ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Ethics, Social Responsibility &amp; Culture</div>
+      <h2>Relativism vs. absolutism</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div class="card cocoa">
+          <h3>Ethical relativism</h3>
+          <p>Ethical values are relative to a culture's norms — no universal standard. Nepotism is acceptable in many collectivist cultures, frowned upon or illegal in many Western ones.</p>
+        </div>
+        <div class="card gold">
+          <h3>Ethical absolutism</h3>
+          <p>Some fundamental values cross all cultures and companies must uphold them — the basis of international codes of conduct.</p>
+        </div>
+      </div>
+      <p style="margin-top:18px;max-width:80ch;">Ethics reside in individuals, but firms should set clear rules — resolving dilemmas with the best interests of <strong>consumers and the environment</strong> in mind.</p>
+    </div>
+  </section>
+
+  <!-- ============ 34 · CASE DIVIDER ============ -->
+  <section class="slide section-divider">
+    <div class="slide-inner">
+      <div class="big-num">Case 2 · Page 63</div>
+      <h1>KitKat in Japan</h1>
+      <div class="sub">Accidental success in a foreign market — where every model from Chapter 2 becomes a concrete marketing decision.</div>
+      <div class="stat-mini" style="margin-top:24px;">
+        <div class="sm"><b>1935</b><span>Rowntree's “Chocolate Crisp”</span></div>
+        <div class="sm"><b>1988</b><span>Nestlé acquires Rowntree</span></div>
+        <div class="sm"><b>4M+</b><span>bars/day made at York</span></div>
+        <div class="sm"><b>1 tonne</b><span>sold daily at Dubai duty-free</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 35 · CASE: HISTORY ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Case · Background</div>
+      <h2>From a York factory to a global wafer</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div>
+          <p style="margin-bottom:12px;">KitKat is a chocolate-covered wafer biscuit produced globally by Nestlé. The first bar — “Chocolate Crisp” — was sold by <strong>Rowntree's of York in 1935</strong>; the shape has barely changed since. The name traces to a 17th-century literary club that met at pastry chef Christopher Catling's pie shop.</p>
+          <p>Sweets are <strong>material culture</strong>: which sweets people prefer, and how they eat them, varies by region — the UK tea-time biscuit, the US "biscuit" that is really a scone.</p>
+        </div>
+        <div class="card cocoa">
+          <h3>Internationalization timeline</h3>
+          <ul class="clean">
+            <li><strong>1950s</strong> — Anglo-Saxon markets: Australia, Canada, NZ, South Africa</li>
+            <li><strong>1970s</strong> — Germany; US license to Hershey; <strong>Japan (1973)</strong></li>
+            <li><strong>1980s</strong> — Japanese manufacturing facility opens</li>
+            <li><strong>Today</strong> — made in Brazil, Mexico, UK, Canada, Australia, Germany, Russia, Japan, UAE, Bulgaria &amp; more</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 36 · CASE: ACCIDENTAL SUCCESS ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Case · The Accident</div>
+      <h2>“Kitto katsu” — you will surely win</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div>
+          <p class="lead" style="margin-bottom:16px;">KitKat sounds like the Japanese phrase <strong>“kitto katsu”</strong> — “you will surely win.” Students began buying the bars as good-luck charms for university entrance exams.</p>
+          <p>Nestlé noticed and operationalised the accident: in 2009 it partnered with <strong>Japan Post</strong> to launch the <em>postable KitKat</em>. Today about half of Japan's ~600,000 annual exam-sitting students receive one for luck.</p>
+        </div>
+        <div class="stat-mini" style="flex-direction:column;gap:12px;">
+          <div class="sm"><b>1973</b><span>first KitKat on sale in Japan</span></div>
+          <div class="sm"><b>~50%</b><span>of exam students gifted one yearly</span></div>
+          <div class="sm"><b>5M</b><span>bars consumed in Japan every day</span></div>
+          <div class="sm"><b>300+</b><span>varieties, wasabi to melon</span></div>
+        </div>
+      </div>
+      <p class="small muted" style="margin-top:16px;">Crucially, “Have a Break, Have a KitKat” does <strong>not</strong> carry the same meaning in Japan — so Nestlé built the brand differently there. Accidents reward the prepared.</p>
+    </div>
+  </section>
+
+  <!-- ============ 37 · CASE Q1 + ADAPTATION ENGINE ============ -->
+  <section class="slide compact">
+    <div class="slide-inner">
+      <div class="eyebrow">Case Q1 · Adapt &amp; Market &nbsp;·&nbsp; Interactive 8 of 8 &nbsp;<span class="badge-live">runs live</span></div>
+      <h2>Cultural Adaptation Engine</h2>
+      <p style="max-width:80ch;"><strong>Q1: How could KitKat adapt and market the product in other countries?</strong> Pick a market — the engine reads the chapter's cultural data and renders local meaning, lead flavours, the ritual to attach to, and the standardize↔adapt balance.</p>
+      <div class="demo-shell">
+        <div class="control-row">
+          <button class="run-btn" id="ae-japan">🇯🇵 Japan</button>
+          <button class="run-btn ghost" id="ae-poland">🇵🇱 Poland</button>
+          <button class="run-btn ghost" id="ae-uk">🇬🇧 UK</button>
+          <button class="run-btn ghost" id="ae-mexico">🇲🇽 Mexico</button>
+          <button class="run-btn ghost" id="ae-india">🇮🇳 India</button>
+        </div>
+        <div class="grid g2" style="align-items:start;gap:18px;">
+          <div id="ae-readout"></div>
+          <div>
+            <div class="canvas-wrap" style="padding:12px 14px;">
+              <span class="code-cap">Strategy balance · standardize ↔ adapt</span>
+              <canvas id="ae-canvas" width="520" height="180" aria-label="Strategy balance chart"></canvas>
+            </div>
+            <div class="legend">
+              <span><i class="swatch" style="background:#B23A2E;"></i> Standardization</span>
+              <span><i class="swatch" style="background:#7E945A;"></i> Adaptation</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 38 · CASE Q2 ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Case Q2 · Cultural Rituals</div>
+      <h2>Attach the bar to rituals the culture already owns</h2>
+      <p style="max-width:82ch;margin-bottom:16px;"><strong>Q2: Which cultural traditions and practices could Nestlé relate KitKat to?</strong> In Poland it joins <em>śmigus</em> Easter gifts for godchildren; in the UK it joins the office tea break. The bar slots into existing customs.</p>
+      <div class="grid g3">
+        <div class="card gold">
+          <h3>Gift &amp; celebration</h3>
+          <p class="small">Easter <em>śmigus</em> baskets, exam good-luck gifts, festive gifting — a small, shareable token of goodwill.</p>
+        </div>
+        <div class="card cocoa">
+          <h3>Daily consumption</h3>
+          <p class="small">The British tea break, the coffee pause — “Have a Break” fits a habit the consumer already keeps.</p>
+        </div>
+        <div class="card matcha">
+          <h3>Social &amp; sharing</h3>
+          <p class="small">Snapping fingers to share among friends — the product's <em>form</em> supports the occasion.</p>
+        </div>
+      </div>
+      <p class="small muted" style="margin-top:16px;">Nestlé must also weigh each market's <strong>political &amp; regulatory context</strong> — taxation, labelling, import/export duties, stability — and run a <strong>SWOT</strong> to choose where each tradition-led play can profitably deploy.</p>
+    </div>
+  </section>
+
+  <!-- ============ 39 · CASE Q3 ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Case Q3 · The Flavour Explosion</div>
+      <h2>Why 300+ flavours in Japan — and not elsewhere?</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div>
+          <ul class="clean">
+            <li><strong>Short product life cycles.</strong> Japan's confectionery market moves fast; constant novelty keeps the brand talked-about.</li>
+            <li><strong>Fierce convenience-store competition.</strong> A crowded shelf rewards a rotating, limited-edition line-up.</li>
+            <li><strong>Scarcity &amp; rarity of value.</strong> Seasonal editions become collectible, generating their own hype and social-media publicity.</li>
+            <li><strong>Gift &amp; omiyage culture.</strong> Local-flavour souvenirs fit Japan's regional gifting.</li>
+          </ul>
+        </div>
+        <div class="card accent">
+          <h3>Why not everywhere?</h3>
+          <p>Many markets have <strong>more open shelf space</strong> to present the product simply, and palates favour a stable core range. Cultural values differ by country, so Nestlé develops and markets products by <strong>local demand and geography</strong> — innovating heavily where the market rewards it, standardising where it doesn't.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 40 · INTERACTIVE: FLAVOUR-MARKET SIMULATOR ============ -->
+  <section class="slide compact">
+    <div class="slide-inner">
+      <div class="eyebrow">Bonus Interactive &nbsp;<span class="badge-live">runs live</span></div>
+      <h2>Flavour-market simulator</h2>
+      <p style="max-width:82ch;">Set how much a market rewards novelty and how crowded its shelves are. The model predicts the right number of flavours and whether to run limited editions — the logic behind Q3.</p>
+      <div class="demo-shell">
+        <div class="grid g2" style="gap:20px;align-items:start;">
+          <div>
+            <div class="slider-row"><label>Novelty appetite</label>
+              <input type="range" id="fs-novel" min="0" max="100" value="85">
+              <span class="slider-val" id="fs-novel-v">85</span>
+            </div>
+            <div class="slider-row"><label>Shelf competition</label>
+              <input type="range" id="fs-comp" min="0" max="100" value="90">
+              <span class="slider-val" id="fs-comp-v">90</span>
+            </div>
+            <div class="slider-row"><label>Product cycle speed</label>
+              <input type="range" id="fs-cycle" min="0" max="100" value="80">
+              <span class="slider-val" id="fs-cycle-v">80</span>
+            </div>
+            <div class="control-row" style="margin-top:8px;margin-bottom:0;">
+              <button class="run-btn ghost" data-preset="japan">Load Japan</button>
+              <button class="run-btn ghost" data-preset="uk">Load UK</button>
+            </div>
+          </div>
+          <div>
+            <div class="canvas-wrap" style="padding:14px 16px;">
+              <span class="code-cap">Recommended flavour breadth</span>
+              <canvas id="fs-canvas" width="520" height="150" aria-label="Flavour recommendation gauge"></canvas>
+            </div>
+            <div class="console" id="fs-out" style="margin-top:12px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 41 · CRITICAL TOPIC: STANDARDIZATION VS ADAPTATION ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Critical Topic · Standardization vs. Adaptation</div>
+      <h2>Think globally, act locally</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div class="card accent">
+          <h3>Standardize — “think globally”</h3>
+          <ul class="clean" style="margin-top:6px;">
+            <li>One consistent name, logo, and red livery worldwide</li>
+            <li>The tagline “Have a Break, Have a KitKat” everywhere</li>
+            <li>A simple, meaningful brand that differentiates and scales cheaply</li>
+          </ul>
+        </div>
+        <div class="card matcha">
+          <h3>Adapt — “act locally”</h3>
+          <ul class="clean" style="margin-top:6px;">
+            <li>200+ flavours &amp; editions, most made in Japan</li>
+            <li>Lucky-charm “kitto katsu” positioning</li>
+            <li>Postable gift formats tuned to local rituals</li>
+          </ul>
+        </div>
+      </div>
+      <div class="quote" style="margin-top:20px;">
+        KitKat keeps a strong, consistent brand image <em>and</em> adapts to unique local needs. Innovation revitalises the brand, creates products worth talking about, and generates its own hype — especially on social media.
+        <span class="src">Synthesised from instructor feedback on the Group 5 submission</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 42 · INTERACTIVE: STRATEGY SLIDER ============ -->
+  <section class="slide compact">
+    <div class="slide-inner">
+      <div class="eyebrow">Bonus Interactive &nbsp;<span class="badge-live">runs live</span></div>
+      <h2>Standardize ↔ adapt: find the balance</h2>
+      <p style="max-width:82ch;">Drag the slider for a market. The model scores cost efficiency vs. local relevance and names the strategy — showing why KitKat sits in a different place in Japan than in the UK.</p>
+      <div class="demo-shell">
+        <div class="control-row">
+          <span class="seg" id="ss-market">
+            <button class="on" data-m="japan">🇯🇵 Japan</button>
+            <button data-m="uk">🇬🇧 UK</button>
+            <button data-m="generic">🌍 New market</button>
+          </span>
+        </div>
+        <div class="slider-row"><label>← Standardize / Adapt →</label>
+          <input type="range" id="ss-slider" min="0" max="100" value="50">
+          <span class="slider-val" id="ss-val">50</span>
+        </div>
+        <div class="grid g2" style="gap:18px;align-items:start;margin-top:6px;">
+          <div class="canvas-wrap" style="padding:14px 16px;">
+            <span class="code-cap">Trade-off · cost vs. local relevance</span>
+            <canvas id="ss-canvas" width="520" height="150" aria-label="Strategy trade-off chart"></canvas>
+          </div>
+          <div class="console" id="ss-out"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 43 · CONCLUSIONS ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Takeaways</div>
+      <h2>What Chapter 2 and KitKat teach</h2>
+      <div class="grid g2" style="align-items:start;">
+        <div class="card cocoa">
+          <h3>Culture comes first</h3>
+          <p>Material and subjective culture, origins, values, time orientation, and the behaviour map should be examined <strong>before</strong> any marketing decision.</p>
+        </div>
+        <div class="card accent">
+          <h3>Standardize the brand, adapt the mix</h3>
+          <p>A consistent global identity plus locally tuned flavour, meaning, and channel. “Think globally, act locally” is the strategic spine.</p>
+        </div>
+        <div class="card matcha">
+          <h3>Accidents reward the prepared</h3>
+          <p>“Kitto katsu” was luck — Nestlé read the culture, then amplified and operationalised it into a durable position.</p>
+        </div>
+        <div class="card gold">
+          <h3>Match innovation to the market</h3>
+          <p>Heavy flavour innovation pays where competition and cycles demand it (Japan); a stable core works where they don't.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 44 · GLOSSARY ============ -->
+  <section class="slide">
+    <div class="slide-inner">
+      <div class="eyebrow">Reference · Chapter 2 Glossary</div>
+      <h2>Key terms</h2>
+      <div class="grid g2" style="align-items:start;gap:16px;">
+        <table class="t">
+          <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Material culture</strong></td><td>Physical elements — food, clothing, tools, buildings.</td></tr>
+            <tr><td><strong>Subjective culture</strong></td><td>Non-material — ideas, values, beliefs, language.</td></tr>
+            <tr><td><strong>Monochronic / polychronic</strong></td><td>Time as blocks &amp; schedules vs. flexible &amp; parallel.</td></tr>
+            <tr><td><strong>Cultures of honor / achievement / joy</strong></td><td>Three-cultures world: status / productivity / well-being.</td></tr>
+            <tr><td><strong>Consumer culture</strong></td><td>Consumption as the primary source of meaning.</td></tr>
+            <tr><td><strong>Cultural distance</strong></td><td>How different two cultures' values are; outside firm control.</td></tr>
+          </tbody>
+        </table>
+        <table class="t">
+          <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Psychic distance</strong></td><td>Individual's perceived home–foreign gap; addressable.</td></tr>
+            <tr><td><strong>Cultural imperative</strong></td><td>Customs that must be met or avoided for success.</td></tr>
+            <tr><td><strong>Cultural elective</strong></td><td>Customs a visitor may, but need not, follow.</td></tr>
+            <tr><td><strong>Cultural exclusive</strong></td><td>Customs reserved for locals; outsiders barred.</td></tr>
+            <tr><td><strong>Standardization / adaptation</strong></td><td>One global mix vs. flexing to local needs.</td></tr>
+            <tr><td><strong>Ethical relativism / absolutism</strong></td><td>Values relative to culture vs. universal values.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="mono small muted" style="margin-top:18px;">Source · Baack &amp; Baack, <em>International Marketing</em> 2nd ed., Ch. 2 “Culture in International Marketing” &amp; Case 2 “KitKat in Japan.” · Built by Naomie Bambara.</p>
+    </div>
+  </section>
+
+</div><!-- /deck -->
+
+<button class="arrow prev" id="prev" aria-label="Previous slide">‹</button>
+<button class="arrow next" id="next" aria-label="Next slide">›</button>
+<div class="progress-bar" id="progress"></div>
+<div class="nav-dots" id="dots"></div>
+<div class="slide-count"><b id="cur">1</b> / <span id="tot">44</span></div>
+
+<script>
+/* ============================================================
+   Culture in International Marketing — MKTG 416 Ch.2 + Case 2
+   All interactives run client-side, directly in this file.
+   ============================================================ */
+
+/* ---------- SLIDE NAVIGATION ---------- */
+const slides = Array.from(document.querySelectorAll('.slide'));
+const dotsWrap = document.getElementById('dots');
+const progress = document.getElementById('progress');
+const curEl = document.getElementById('cur');
+const totEl = document.getElementById('tot');
+const prevBtn = document.getElementById('prev');
+const nextBtn = document.getElementById('next');
+let idx = 0;
+
+totEl.textContent = slides.length;
+slides.forEach((_, i) => {
+  const b = document.createElement('button');
+  b.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+  b.addEventListener('click', () => go(i));
+  dotsWrap.appendChild(b);
+});
+const dots = Array.from(dotsWrap.children);
+
+function go(n){
+  idx = Math.max(0, Math.min(slides.length - 1, n));
+  slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+  dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+  progress.style.width = ((idx + 1) / slides.length * 100) + '%';
+  curEl.textContent = idx + 1;
+  prevBtn.disabled = idx === 0;
+  nextBtn.disabled = idx === slides.length - 1;
+  if (window.__stopGames) window.__stopGames();
+}
+prevBtn.addEventListener('click', () => go(idx - 1));
+nextBtn.addEventListener('click', () => go(idx + 1));
+
+document.addEventListener('keydown', (e) => {
+  const t = e.target.tagName;
+  if (t === 'INPUT' || t === 'TEXTAREA' || t === 'SELECT') return;
+  if (e.key === 'ArrowRight' || e.key === 'PageDown'){ e.preventDefault(); go(idx + 1); }
+  else if (e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); go(idx - 1); }
+  else if (e.key === 'Home'){ e.preventDefault(); go(0); }
+  else if (e.key === 'End'){ e.preventDefault(); go(slides.length - 1); }
+});
+
+/* ---------- shared canvas helpers ---------- */
+function roundRect(ctx,x,y,w,h,r){
+  if (w < 2*r) r = Math.max(0,w/2); if (h < 2*r) r = Math.max(0,h/2);
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+const C = { crimson:'#B23A2E', cocoa:'#6B4226', matcha:'#7E945A', gold:'#C99A3B',
+            ink:'#2B2622', soft:'#5A5249', line:'#E7DCB8', parch:'#F4EDD2', blue:'#4A6FA5' };
+
+/* ============================================================
+   DIAGRAM · International Marketing Context (slide 4)
+   ============================================================ */
+(function(){
+  const cv = document.getElementById('ctx-canvas'); if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0,0,W,H);
+  const cx = W/2, cy = H/2;
+  // center: markets + 4Ps
+  ctx.fillStyle = C.crimson;
+  ctx.beginPath(); ctx.arc(cx, cy, 56, 0, Math.PI*2); ctx.fill();
+  ctx.fillStyle = '#fff'; ctx.font = '600 16px "Fraunces", serif'; ctx.textAlign='center';
+  ctx.fillText('Markets', cx, cy-6);
+  ctx.font = '11px "JetBrains Mono", monospace';
+  ctx.fillText('Product · Price', cx, cy+12);
+  ctx.fillText('Place · Promotion', cx, cy+26);
+  // ring nodes
+  const ring = ['Culture','Language','Political &\nLegal','Economic','Infrastructure'];
+  const colors = [C.cocoa, C.matcha, C.gold, C.blue, C.cocoa];
+  const R = 118;
+  ring.forEach((label,i)=>{
+    const a = -Math.PI/2 + i*(Math.PI*2/ring.length);
+    const x = cx + Math.cos(a)*R, y = cy + Math.sin(a)*R*0.78;
+    ctx.strokeStyle = C.line; ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(cx+Math.cos(a)*60, cy+Math.sin(a)*48); ctx.lineTo(x,y); ctx.stroke();
+    ctx.fillStyle = colors[i];
+    roundRect(ctx, x-58, y-18, 116, 36, 8); ctx.fill();
+    ctx.fillStyle = '#fff'; ctx.font = '600 12px "Outfit", sans-serif';
+    const lines = label.split('\n');
+    lines.forEach((ln,li)=> ctx.fillText(ln, x, y + (lines.length===1?4:(li*13-3))));
+  });
+  ctx.textAlign='left';
+})();
+
+/* ============================================================
+   1 · CULTURE BUILDER (slide 11)
+   ============================================================ */
+(function(){
+  const out = document.getElementById('cb-out'); if(!out) return;
+  const state = { climate:'cold', terrain:'coastal', trade:'high', relig:'one' };
+  function wire(id, key){
+    document.querySelectorAll('#'+id+' button').forEach(b=>{
+      b.addEventListener('click', ()=>{
+        document.querySelectorAll('#'+id+' button').forEach(x=>x.classList.remove('on'));
+        b.classList.add('on'); state[key]=b.dataset.v;
+      });
+    });
+  }
+  wire('cb-climate','climate'); wire('cb-terrain','terrain');
+  wire('cb-trade','trade'); wire('cb-relig','relig');
+
+  document.getElementById('cb-run').addEventListener('click', ()=>{
+    const lines = [];
+    lines.push('<span class="dim">// deriving cultural traits from inputs…</span>');
+    // climate
+    if(state.climate==='cold') lines.push('climate=cold  → life centres on <span class="hot">warmth, hunting/fishing</span>; markets for heating, layered apparel');
+    else if(state.climate==='hot') lines.push('climate=hot   → <span class="hot">outdoor recreation, siestas</span>; lighter clothing, cooling products');
+    else lines.push('climate=temperate → mixed seasonal demand; broad apparel range');
+    // terrain
+    if(state.terrain==='mountain') lines.push('terrain=mountain → isolation → <span class="hot">distinct dialects &amp; customs</span> (cf. Switzerland\'s 4 languages)');
+    else if(state.terrain==='coastal') lines.push('terrain=coastal → <span class="hot">dense population</span> near water → strong retail target markets');
+    else lines.push('terrain=plains → connected settlement; easier distribution');
+    // trade
+    if(state.trade==='high') lines.push('trade=high → <span class="ok">cross-cultural exchange</span> (Silk-Road effect) → openness to global brands');
+    else lines.push('trade=low → preserved local traditions → <span class="hot">resistance to global brands</span>');
+    // religion
+    if(state.relig==='one') lines.push('religion=one → <span class="ok">simpler adaptation</span>: align holy days, foods, gender roles');
+    else lines.push('religion=many → <span class="hot">complex</span>: choose target religion without offending others');
+    // verdict
+    const open = (state.trade==='high');
+    lines.push('');
+    lines.push('<span class="dim">// marketing implication →</span>');
+    lines.push(open
+      ? '<span class="ok">▸ Favour global brand cues + selective local adaptation.</span>'
+      : '<span class="hot">▸ Lead with cultural congruence; localise heavily before entry.</span>');
+    out.innerHTML = lines.join('<br>');
+  });
+  document.getElementById('cb-run').click();
+})();
+
+/* ============================================================
+   2 · HOFSTEDE COMPARISON (slide 13)
+   ============================================================ */
+(function(){
+  const cv = document.getElementById('hof-canvas'); if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const HOF = {
+    Japan:  { color:C.crimson, v:[54,46,95,92,88] },
+    UK:     { color:C.cocoa,   v:[35,89,66,35,51] },
+    Mexico: { color:C.matcha,  v:[81,30,69,82,24] },
+    Poland: { color:C.gold,    v:[68,60,64,93,38] },
+    USA:    { color:C.blue,    v:[40,91,62,46,26] }
+  };
+  const DIMS = ['Power\nDistance','Individ-\nualism','Mascul-\ninity','Uncert.\nAvoid.','Long-Term\nOrient.'];
+  const active = new Set(['Japan']);
+  const insight = document.getElementById('hof-insight');
+
+  function draw(){
+    const W=cv.width, H=cv.height;
+    ctx.clearRect(0,0,W,H);
+    const padL=30, padR=20, padT=26, padB=52;
+    const plotW=W-padL-padR, plotH=H-padT-padB;
+    const arr=Array.from(active), groups=DIMS.length, groupW=plotW/groups;
+    const barW=Math.min(30,(groupW-16)/Math.max(arr.length,1));
+    ctx.strokeStyle=C.line; ctx.lineWidth=1; ctx.fillStyle=C.soft;
+    ctx.font='10px "JetBrains Mono", monospace'; ctx.textAlign='left';
+    for(let g=0; g<=100; g+=25){
+      const y=padT+plotH-(g/100)*plotH;
+      ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
+      ctx.fillText(g,4,y+3);
+    }
+    DIMS.forEach((dim,gi)=>{
+      const gx=padL+gi*groupW+(groupW-barW*arr.length)/2;
+      arr.forEach((mk,mi)=>{
+        const val=HOF[mk].v[gi], x=gx+mi*barW, h=(val/100)*plotH, y=padT+plotH-h;
+        ctx.fillStyle=HOF[mk].color; roundRect(ctx,x+2,y,barW-4,h,3); ctx.fill();
+      });
+      ctx.fillStyle=C.soft; ctx.font='10px "JetBrains Mono", monospace'; ctx.textAlign='center';
+      dim.split('\n').forEach((ln,li)=> ctx.fillText(ln, padL+gi*groupW+groupW/2, padT+plotH+15+li*11));
+      ctx.textAlign='left';
+    });
+    let lx=padL;
+    arr.forEach(mk=>{
+      ctx.fillStyle=HOF[mk].color; roundRect(ctx,lx,6,11,11,3); ctx.fill();
+      ctx.fillStyle=C.ink; ctx.font='11px "JetBrains Mono", monospace';
+      ctx.fillText(mk,lx+16,16); lx+=30+ctx.measureText(mk).width;
+    });
+    let txt;
+    if(active.has('Japan')&&active.has('UK'))
+      txt='<p class="small"><strong>Japan vs UK:</strong> Japan scores far higher on masculinity (95), uncertainty avoidance (92) and long-term orientation (88). High uncertainty avoidance helps explain the appetite for trusted, branded novelty and collectible editions; the UK\'s individualism (89) suits a steady "have a break" self-treat.</p>';
+    else if(active.has('Japan'))
+      txt='<p class="small"><strong>Japan:</strong> very high masculinity (95), uncertainty avoidance (92), long-term orientation (88). Add another market to compare why one campaign can\'t fit all.</p>';
+    else txt='<p class="small">Add Japan to anchor the comparison.</p>';
+    insight.innerHTML=txt;
+  }
+  document.querySelectorAll('[data-h]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const mk=btn.getAttribute('data-h');
+      if(active.has(mk)){ if(active.size>1) active.delete(mk); }
+      else active.add(mk);
+      btn.className = active.has(mk)?'run-btn':'run-btn ghost';
+      draw();
+    });
+  });
+  window.__hofDraw = draw;
+  draw();
+})();
+
+/* ============================================================
+   3 · SCHWARTZ VALUE SORTER (slide 17)
+   ============================================================ */
+(function(){
+  const pool = document.getElementById('sw-pool'); if(!pool) return;
+  // individualist = personal interest; collectivist = group interest (per chapter)
+  const VALUES = [
+    { k:'Power', a:'ind' }, { k:'Achievement', a:'ind' }, { k:'Hedonism', a:'ind' },
+    { k:'Stimulation', a:'ind' }, { k:'Self-Direction', a:'ind' },
+    { k:'Universalism', a:'col' }, { k:'Benevolence', a:'col' },
+    { k:'Tradition', a:'col' }, { k:'Conformity', a:'col' }, { k:'Security', a:'col' }
+  ];
+  const pick = {};
+  function build(){
+    Object.keys(pick).forEach(k=>delete pick[k]);
+    pool.innerHTML='';
+    document.getElementById('sw-score').textContent='';
+    VALUES.slice().sort(()=>Math.random()-0.5).forEach(v=>{
+      const row=document.createElement('div');
+      row.className='clf-chip'; row.dataset.k=v.k;
+      row.innerHTML='<span class="clf-label">'+v.k+'</span>'+
+        '<span class="clf-pick">'+
+          '<button data-c="ind" title="Individualist">IND</button>'+
+          '<button data-c="col" title="Collectivist">COL</button>'+
+        '</span>'+
+        '<span class="clf-verdict" data-v="'+v.k+'"></span>';
+      row.querySelectorAll('.clf-pick button').forEach(b=>{
+        b.addEventListener('click', ()=>{
+          pick[v.k]=b.dataset.c;
+          row.querySelectorAll('.clf-pick button').forEach(x=>x.classList.remove('sel'));
+          b.classList.add('sel');
+          row.classList.remove('correct','wrong');
+          row.querySelector('.clf-verdict').textContent='';
+        });
+      });
+      pool.appendChild(row);
+    });
+  }
+  document.getElementById('sw-check').addEventListener('click', ()=>{
+    let correct=0, placed=0;
+    VALUES.forEach(v=>{
+      const row=pool.querySelector('[data-k="'+v.k+'"]');
+      const ver=row.querySelector('.clf-verdict');
+      if(pick[v.k]){ placed++;
+        if(pick[v.k]===v.a){ correct++; row.classList.add('correct'); row.classList.remove('wrong');
+          ver.className='clf-verdict ok'; ver.textContent='✓'; }
+        else { row.classList.add('wrong'); row.classList.remove('correct');
+          ver.className='clf-verdict no'; ver.textContent='→ '+(v.a==='ind'?'IND':'COL'); }
+      }
+    });
+    document.getElementById('sw-score').innerHTML='<strong style="color:var(--crimson);">'+correct+' / '+VALUES.length+'</strong> correct'+
+      (placed<VALUES.length?' · '+(VALUES.length-placed)+' unplaced':'');
+  });
+  document.getElementById('sw-reset').addEventListener('click', build);
+  build();
+})();
+
+/* ============================================================
+   4 · TIME-ORIENTATION CAMPAIGN MATCHER (slide 20)
+   ============================================================ */
+(function(){
+  const optWrap = document.getElementById('tm-options'); if(!optWrap) return;
+  const out = document.getElementById('tm-out');
+  let market = 'USA';
+  const APPEALS = [
+    { id:'future', label:'Emphasise future benefits of the purchase', good:'USA' },
+    { id:'present', label:'Emphasise present, immediate benefits', good:'Mexico' },
+    { id:'nontrad', label:'Use a theme focused away from tradition', good:'China' }
+  ];
+  const NOTE = {
+    USA:'Future-oriented: communicate how the purchase pays off later (Spears et al.).',
+    Mexico:'Present-oriented: stress immediate enjoyment — "buy now, enjoy now."',
+    China:'Past-oriented: campaigns succeed with a theme focused away from tradition.'
+  };
+  function renderOpts(){
+    optWrap.innerHTML='';
+    APPEALS.forEach(a=>{
+      const b=document.createElement('button');
+      b.className='quiz-opt'; b.dataset.id=a.id;
+      b.innerHTML='<span class="mark">▸</span>'+a.label;
+      b.addEventListener('click', ()=>{
+        const right = a.good===market;
+        optWrap.querySelectorAll('.quiz-opt').forEach(o=>o.classList.remove('correct','wrong'));
+        b.classList.add(right?'correct':'wrong');
+        out.innerHTML = (right
+          ? '<span class="ok">✓ Good fit for '+market+'.</span> '
+          : '<span class="hot">✗ Off-target for '+market+'.</span> ')
+          + '<span class="dim">'+NOTE[market]+'</span>';
+      });
+      optWrap.appendChild(b);
+    });
+    out.innerHTML='<span class="dim">Market = '+market+'. Pick the appeal the chapter recommends.</span>';
+  }
+  document.querySelectorAll('#tm-market button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('#tm-market button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on'); market=b.dataset.m; renderOpts();
+    });
+  });
+  renderOpts();
+})();
+
+/* ============================================================
+   5 · THREE-CULTURES EXPLORER (slide 22)
+   ============================================================ */
+(function(){
+  const detail = document.getElementById('tc-detail'); if(!detail) return;
+  const cWrap = document.getElementById('tc-countries');
+  const DATA = {
+    honor:{ color:'var(--crimson)', drivers:'The state (political)', priorities:'Dominance · Tradition',
+      prevalent:'Ancient empires · African · Middle Eastern · Islamic countries',
+      sell:'Advertise products that enhance social status.',
+      top:['Zimbabwe','Pakistan','Jordan','Morocco','Ghana','Iraq','Algeria','Rwanda','Trinidad','Bangladesh'] },
+    achievement:{ color:'var(--matcha)', drivers:'The market (economic)', priorities:'Wealth · Efficiency · Punctuality',
+      prevalent:'Modern empires · Asian · Anglo-Saxon · Western &amp; Northern countries',
+      sell:'Hard sell: performance &amp; effectiveness appeals.',
+      top:['Sweden','Norway','Denmark','Switzerland','Andorra','Netherlands','Finland','Iceland','West Germany','France'] },
+    joy:{ color:'var(--gold)', drivers:'The family (social)', priorities:'Human relations · Well-being',
+      prevalent:'Catholic &amp; Buddhist countries · Latin American countries',
+      sell:'Soft sell: fun, joy, happiness, relaxation.',
+      top:['Italy','Spain','Northern Ireland','Croatia','Uruguay','Israel','Galicia','Argentina','Brazil','Portugal'] }
+  };
+  function render(type){
+    const d=DATA[type];
+    detail.innerHTML='<div class="card" style="border-left:3px solid '+d.color+';">'+
+      '<dl class="deflist">'+
+        '<dt>Driver</dt><dd>'+d.drivers+'</dd>'+
+        '<dt>Priorities</dt><dd>'+d.priorities+'</dd>'+
+        '<dt>Prevalent in</dt><dd>'+d.prevalent+'</dd>'+
+        '<dt>Recommended strategy</dt><dd><strong>'+d.sell+'</strong></dd>'+
+      '</dl></div>';
+    cWrap.innerHTML = d.top.map(c=>'<span class="pill">'+c+'</span>').join('');
+  }
+  document.querySelectorAll('#tc-type button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('#tc-type button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on'); render(b.dataset.t);
+    });
+  });
+  render('honor');
+})();
+
+/* ============================================================
+   6 · CULTURAL-DISTANCE CALCULATOR (slide 26)
+   ============================================================ */
+(function(){
+  const cv=document.getElementById('cd-canvas'); if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const selA=document.getElementById('cd-a'), selB=document.getElementById('cd-b');
+  const read=document.getElementById('cd-read');
+  // subset of Table 2.13 (columns available): Belgium, Bulgaria, Switzerland, Czech Republic, Cyprus, Germany
+  const COLS=['Belgium','Bulgaria','Switzerland','Czech Republic','Cyprus','Germany'];
+  const ROWS={
+    'Belgium':{Belgium:0.00,Bulgaria:2.51,Switzerland:0.61,'Czech Republic':0.16,Cyprus:2.26,Germany:0.05},
+    'Switzerland':{Belgium:0.61,Bulgaria:4.97,Switzerland:0.00,'Czech Republic':1.30,Cyprus:2.57,Germany:0.41},
+    'Czech Republic':{Belgium:0.16,Bulgaria:1.50,Switzerland:1.30,'Czech Republic':0.00,Cyprus:1.90,Germany:0.32},
+    'Cyprus':{Belgium:2.26,Bulgaria:2.31,Switzerland:2.57,'Czech Republic':1.90,Cyprus:0.00,Germany:2.29},
+    'Germany':{Belgium:0.05,Bulgaria:3.10,Switzerland:0.41,'Czech Republic':0.32,Cyprus:2.29,Germany:0.00},
+    'Denmark':{Belgium:1.48,Bulgaria:7.51,Switzerland:0.50,'Czech Republic':2.58,Cyprus:4.93,Germany:1.14},
+    'Spain':{Belgium:0.41,Bulgaria:2.33,Switzerland:1.43,'Czech Republic':0.27,Cyprus:2.13,Germany:0.39},
+    'France':{Belgium:0.47,Bulgaria:3.86,Switzerland:1.39,'Czech Republic':0.76,Cyprus:4.63,Germany:0.50},
+    'Great Britain':{Belgium:0.03,Bulgaria:2.34,Switzerland:0.79,'Czech Republic':0.10,Cyprus:2.20,Germany:0.07},
+    'Greece':{Belgium:2.64,Bulgaria:2.31,Switzerland:3.05,'Czech Republic':2.21,Cyprus:0.42,Germany:2.81},
+    'Poland':{Belgium:0.94,Bulgaria:0.41,Switzerland:2.68,'Czech Republic':0.41,Cyprus:1.76,Germany:1.32},
+    'Norway':{Belgium:0.88,Bulgaria:5.47,Switzerland:0.95,'Czech Republic':1.60,Cyprus:4.89,Germany:0.76}
+  };
+  const ROWNAMES=Object.keys(ROWS);
+  ROWNAMES.forEach(r=>{ const o=document.createElement('option'); o.value=r; o.textContent=r; selA.appendChild(o); });
+  COLS.forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c; selB.appendChild(o); });
+  selA.value='Poland'; selB.value='Germany';
+
+  const MAX=7.51;
+  function draw(){
+    const a=selA.value, b=selB.value;
+    const val=(ROWS[a] && (b in ROWS[a]))?ROWS[a][b]:null;
+    const W=cv.width,H=cv.height; ctx.clearRect(0,0,W,H);
+    const x0=30, y=H/2, w=W-60;
+    // track
+    ctx.fillStyle=C.parch; roundRect(ctx,x0,y-10,w,20,10); ctx.fill();
+    if(val!==null){
+      const frac=Math.min(val/MAX,1);
+      const grad=ctx.createLinearGradient(x0,0,x0+w,0);
+      grad.addColorStop(0,C.matcha); grad.addColorStop(0.5,C.gold); grad.addColorStop(1,C.crimson);
+      ctx.fillStyle=grad; roundRect(ctx,x0,y-10,Math.max(w*frac,14),20,10); ctx.fill();
+      // marker
+      const mx=x0+w*frac;
+      ctx.fillStyle=C.ink; ctx.beginPath(); ctx.arc(mx,y,13,0,Math.PI*2); ctx.fill();
+      ctx.fillStyle='#fff'; ctx.font='600 12px "JetBrains Mono", monospace'; ctx.textAlign='center';
+      ctx.fillText(val.toFixed(2), mx, y+4);
+    }
+    ctx.fillStyle=C.soft; ctx.font='10px "JetBrains Mono", monospace'; ctx.textAlign='left';
+    ctx.fillText('0 · identical', x0, y-20);
+    ctx.textAlign='right'; ctx.fillText('high distance · '+MAX, x0+w, y-20);
+    ctx.textAlign='left';
+    // reading
+    if(val===null){
+      read.innerHTML='<p class="small">No index for that pair in the chapter\'s columns — pick a destination from Belgium, Bulgaria, Switzerland, Czech Republic, Cyprus, or Germany.</p>';
+    } else {
+      let band = val<0.5?'very small':val<1.5?'modest':val<3?'sizable':'large';
+      read.innerHTML='<p class="small"><strong>'+a+' → '+b+': index '+val.toFixed(2)+'</strong> ('+band+' cultural distance). '+
+        (val<1.5?'Closer values mean lower entry risk and lighter adaptation.':'Greater distance calls for heavier adaptation and careful staff selection (low psychic distance).')+
+        '</p>';
+    }
+  }
+  selA.addEventListener('change',draw); selB.addEventListener('change',draw);
+  window.__cdDraw=draw; draw();
+})();
+
+/* ============================================================
+   7 · BEHAVIOUR CLASSIFIER — FIXED (slide 29)
+   Explicit I/E/X buttons per row. No ambiguous click-cycling.
+   ============================================================ */
+(function(){
+  const list = document.getElementById('bc-list'); if(!list) return;
+  const BEHAVIOURS = [
+    { id:'eye',   label:'Prolonged eye contact in Japan (offensive there)', answer:'I' },
+    { id:'face',  label:'Avoid correcting someone in public ("losing face")', answer:'I' },
+    { id:'friend',label:'Building friendship/trust before negotiations (guanxi)', answer:'I' },
+    { id:'bow',   label:'Offering a symbolic bow to a Japanese host', answer:'E' },
+    { id:'card',  label:'Accepting a business card with two hands', answer:'E' },
+    { id:'kiss',  label:'Greeting with a kiss or drinking alcohol', answer:'E' },
+    { id:'mosque',label:'Entering a males-only mosque at the Taj Mahal', answer:'X' },
+    { id:'parl',  label:'Foreign visitors restricted at UK Parliament', answer:'X' }
+  ];
+  const LABELS = { I:'imperative', E:'elective', X:'exclusive' };
+  const pick = {};
+
+  function build(){
+    Object.keys(pick).forEach(k=>delete pick[k]);
+    list.innerHTML='';
+    document.getElementById('bc-score').textContent='';
+    BEHAVIOURS.slice().sort(()=>Math.random()-0.5).forEach(it=>{
+      const row=document.createElement('div');
+      row.className='clf-chip'; row.dataset.id=it.id;
+      row.innerHTML =
+        '<span class="clf-label">'+it.label+'</span>'+
+        '<span class="clf-pick">'+
+          '<button data-c="I" title="Imperative — must do / must avoid">I</button>'+
+          '<button data-c="E" title="Elective — may do, optional">E</button>'+
+          '<button data-c="X" title="Exclusive — locals only">X</button>'+
+        '</span>'+
+        '<span class="clf-verdict"></span>';
+      row.querySelectorAll('.clf-pick button').forEach(b=>{
+        b.addEventListener('click', ()=>{
+          pick[it.id]=b.dataset.c;
+          row.querySelectorAll('.clf-pick button').forEach(x=>x.classList.remove('sel'));
+          b.classList.add('sel');
+          row.classList.remove('correct','wrong');
+          row.querySelector('.clf-verdict').textContent='';
+        });
+      });
+      list.appendChild(row);
+    });
+  }
+  document.getElementById('bc-check').addEventListener('click', ()=>{
+    let correct=0, placed=0;
+    BEHAVIOURS.forEach(it=>{
+      const row=list.querySelector('[data-id="'+it.id+'"]');
+      const ver=row.querySelector('.clf-verdict');
+      if(pick[it.id]){ placed++;
+        if(pick[it.id]===it.answer){ correct++;
+          row.classList.add('correct'); row.classList.remove('wrong');
+          ver.className='clf-verdict ok'; ver.textContent='✓ '+LABELS[it.answer];
+        } else {
+          row.classList.add('wrong'); row.classList.remove('correct');
+          ver.className='clf-verdict no'; ver.textContent='→ '+LABELS[it.answer];
+        }
+      } else {
+        ver.className='clf-verdict'; ver.textContent='—';
+      }
+    });
+    document.getElementById('bc-score').innerHTML =
+      '<strong style="color:var(--crimson);">'+correct+' / '+BEHAVIOURS.length+'</strong> correct'+
+      (placed<BEHAVIOURS.length?' · '+(BEHAVIOURS.length-placed)+' unplaced':'');
+  });
+  document.getElementById('bc-reset').addEventListener('click', build);
+  build();
+})();
+
+/* ============================================================
+   8 · CULTURAL ADAPTATION ENGINE (slide 37)
+   ============================================================ */
+(function(){
+  const aeReadout=document.getElementById('ae-readout'); if(!aeReadout) return;
+  const aeCanvas=document.getElementById('ae-canvas'); const aeCtx=aeCanvas.getContext('2d');
+  const MARKETS={
+    Japan:{flag:'🇯🇵',name:'Japan',
+      meaning:'"KitKat" ≈ "kitto katsu" — "you will surely win." A good-luck charm for exam students.',
+      flavours:['Matcha','Sakura','Wasabi','Melon','Sake','Hojicha'],
+      ritual:'Exam good-luck gifting + omiyage souvenir culture (postable KitKat via Japan Post).',
+      standardize:25,adapt:75,
+      note:'Heavy flavour innovation + localized meaning. The global tagline doesn\'t translate, so the brand was rebuilt locally.'},
+    Poland:{flag:'🇵🇱',name:'Poland',
+      meaning:'No lucky-name effect; positioned as a confectionery treat and small gift.',
+      flavours:['Classic Milk','Dark','Hazelnut'],
+      ritual:'Śmigus Easter baskets for godchildren — sweets, fruit, money, clothes.',
+      standardize:60,adapt:40,
+      note:'Attach to an existing gift ritual; keep a stable core range over constant novelty.'},
+    UK:{flag:'🇬🇧',name:'United Kingdom',
+      meaning:'Home of the brand and the tagline "Have a Break, Have a KitKat."',
+      flavours:['Classic Milk','Chunky','Dark','Orange'],
+      ritual:'The office tea break — a daily pause with tea or coffee.',
+      standardize:80,adapt:20,
+      note:'Most standardized market: consistent identity, the original tagline carries its meaning.'},
+    Mexico:{flag:'🇲🇽',name:'Mexico',
+      meaning:'Present-oriented culture; emphasise immediate enjoyment of the treat.',
+      flavours:['Classic Milk','Dulce de Leche style','Dark'],
+      ritual:'Shareable everyday indulgence; "buy now, enjoy now" present-time appeals.',
+      standardize:65,adapt:35,
+      note:'Promote present benefits &amp; immediate gratification (Spears et al.) with a familiar core line.'},
+    India:{flag:'🇮🇳',name:'India',
+      meaning:'Vegetarian-friendly snack; respect dominant dietary &amp; religious norms.',
+      flavours:['Classic Milk','Chocolate'],
+      ritual:'Tea-time snacking and family sharing; affordable small-pack formats.',
+      standardize:55,adapt:45,
+      note:'Adapt formats &amp; dietary signalling to local norms; price for accessibility.'}
+  };
+  function drawBalance(std,adapt){
+    const W=aeCanvas.width,H=aeCanvas.height; aeCtx.clearRect(0,0,W,H);
+    const x0=18,barH=34,gap=24,top=28,maxW=W-x0-92;
+    aeCtx.fillStyle=C.soft; aeCtx.font='12px "JetBrains Mono", monospace';
+    aeCtx.fillText('Standardize',x0,top-9);
+    roundRect(aeCtx,x0,top,maxW,barH,7); aeCtx.fillStyle=C.parch; aeCtx.fill();
+    roundRect(aeCtx,x0,top,Math.max(maxW*(std/100),10),barH,7); aeCtx.fillStyle=C.crimson; aeCtx.fill();
+    aeCtx.fillStyle=C.ink; aeCtx.font='600 16px "Fraunces", serif'; aeCtx.fillText(std+'%',x0+maxW+12,top+barH/2+6);
+    const t2=top+barH+gap;
+    aeCtx.fillStyle=C.soft; aeCtx.font='12px "JetBrains Mono", monospace'; aeCtx.fillText('Adapt to local',x0,t2-9);
+    roundRect(aeCtx,x0,t2,maxW,barH,7); aeCtx.fillStyle=C.parch; aeCtx.fill();
+    roundRect(aeCtx,x0,t2,Math.max(maxW*(adapt/100),10),barH,7); aeCtx.fillStyle=C.matcha; aeCtx.fill();
+    aeCtx.fillStyle=C.ink; aeCtx.font='600 16px "Fraunces", serif'; aeCtx.fillText(adapt+'%',x0+maxW+12,t2+barH/2+6);
+  }
+  function render(key){
+    const m=MARKETS[key];
+    aeReadout.innerHTML=
+      '<div class="card" style="border-left:3px solid var(--crimson);margin-bottom:12px;">'+
+        '<h3 style="margin-bottom:6px;">'+m.flag+' '+m.name+'</h3>'+
+        '<p class="small" style="margin-bottom:10px;"><strong>Local meaning:</strong> '+m.meaning+'</p>'+
+        '<p class="small" style="margin-bottom:6px;"><strong>Lead flavours:</strong></p>'+
+        '<div>'+m.flavours.map(f=>'<span class="pill green">'+f+'</span>').join('')+'</div>'+
+      '</div>'+
+      '<div class="card" style="border-left:3px solid var(--matcha);">'+
+        '<p class="small" style="margin-bottom:8px;"><strong>Ritual to attach to:</strong> '+m.ritual+'</p>'+
+        '<p class="small muted">'+m.note+'</p>'+
+      '</div>';
+    drawBalance(m.standardize,m.adapt);
+    ['japan','poland','uk','mexico','india'].forEach(k=>{
+      const btn=document.getElementById('ae-'+k); if(btn) btn.className='run-btn ghost';
+    });
+    const active=document.getElementById('ae-'+key.toLowerCase()); if(active) active.className='run-btn';
+  }
+  document.getElementById('ae-japan').addEventListener('click',()=>render('Japan'));
+  document.getElementById('ae-poland').addEventListener('click',()=>render('Poland'));
+  document.getElementById('ae-uk').addEventListener('click',()=>render('UK'));
+  document.getElementById('ae-mexico').addEventListener('click',()=>render('Mexico'));
+  document.getElementById('ae-india').addEventListener('click',()=>render('India'));
+  window.__aeRender=()=>render('Japan');
+  render('Japan');
+})();
+
+/* ============================================================
+   9 · FLAVOUR-MARKET SIMULATOR (slide 40)
+   ============================================================ */
+(function(){
+  const cv=document.getElementById('fs-canvas'); if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const out=document.getElementById('fs-out');
+  const sN=document.getElementById('fs-novel'), sC=document.getElementById('fs-comp'), sY=document.getElementById('fs-cycle');
+  const vN=document.getElementById('fs-novel-v'), vC=document.getElementById('fs-comp-v'), vY=document.getElementById('fs-cycle-v');
+  function compute(){
+    const n=+sN.value, c=+sC.value, y=+sY.value;
+    vN.textContent=n; vC.textContent=c; vY.textContent=y;
+    // weighted index → flavour breadth
+    const score=(n*0.45 + c*0.35 + y*0.20);          // 0..100
+    const flavours=Math.round(3 + (score/100)*max(0)); // 3..~300
+    const limited = score>55;
+    draw(score);
+    out.innerHTML =
+      '<span class="dim">// score = 0.45·novelty + 0.35·competition + 0.20·cycle</span><br>'+
+      'index = <span class="num">'+score.toFixed(0)+'</span> / 100<br>'+
+      'recommended flavours ≈ <span class="hot">'+flavours+'</span><br>'+
+      'limited editions: '+(limited?'<span class="ok">YES — drive scarcity &amp; hype</span>':'<span class="dim">no — stable core range</span>')+'<br>'+
+      '<span class="dim">'+(score>70?'▸ Japan-like: rotate seasonal/regional flavours.'
+        : score>40?'▸ Mixed: a modest rotating range on top of the core.'
+        : '▸ UK-like: present a simple, steady line-up.')+'</span>';
+  }
+  function max(_){ return 297; }
+  function draw(score){
+    const W=cv.width,H=cv.height; ctx.clearRect(0,0,W,H);
+    const x0=18,y=H/2,w=W-36;
+    ctx.fillStyle=C.parch; roundRect(ctx,x0,y-12,w,24,12); ctx.fill();
+    const grad=ctx.createLinearGradient(x0,0,x0+w,0);
+    grad.addColorStop(0,C.matcha); grad.addColorStop(0.55,C.gold); grad.addColorStop(1,C.crimson);
+    ctx.fillStyle=grad; roundRect(ctx,x0,y-12,Math.max(w*(score/100),16),24,12); ctx.fill();
+    ctx.fillStyle=C.soft; ctx.font='10px "JetBrains Mono", monospace'; ctx.textAlign='left';
+    ctx.fillText('narrow / steady',x0,y-20);
+    ctx.textAlign='right'; ctx.fillText('wide / rotating',x0+w,y-20); ctx.textAlign='left';
+  }
+  [sN,sC,sY].forEach(s=>s.addEventListener('input',compute));
+  document.querySelectorAll('[data-preset]').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      if(b.dataset.preset==='japan'){ sN.value=85; sC.value=90; sY.value=80; }
+      else { sN.value=25; sC.value=35; sY.value=30; }
+      compute();
+    });
+  });
+  window.__fsCompute=compute; compute();
+})();
+
+/* ============================================================
+   10 · STANDARDIZE ↔ ADAPT STRATEGY SLIDER (slide 42)
+   ============================================================ */
+(function(){
+  const cv=document.getElementById('ss-canvas'); if(!cv) return;
+  const ctx=cv.getContext('2d');
+  const slider=document.getElementById('ss-slider'), val=document.getElementById('ss-val'), out=document.getElementById('ss-out');
+  let market='japan';
+  const SWEET={ japan:78, uk:22, generic:50 }; // empirical "best" adapt level
+  function compute(){
+    const a=+slider.value; val.textContent=a;
+    const cost=100-a*0.85;            // more adaptation → higher cost (lower efficiency)
+    const relevance=a;                // more adaptation → higher local relevance
+    const target=SWEET[market];
+    const fit=100-Math.abs(a-target); // closeness to market's ideal
+    draw(cost,relevance,a,target);
+    let label = a<33?'Standardization-led':a<66?'Glocal (balanced)':'Adaptation-led';
+    out.innerHTML=
+      'market = <span class="hot">'+market.toUpperCase()+'</span> · adapt level = <span class="num">'+a+'</span><br>'+
+      'cost efficiency = <span class="num">'+cost.toFixed(0)+'</span> · local relevance = <span class="num">'+relevance+'</span><br>'+
+      'strategy: <span class="ok">'+label+'</span><br>'+
+      'fit to this market = <span class="'+(fit>80?'ok':'hot')+'">'+fit.toFixed(0)+'%</span><br>'+
+      '<span class="dim">'+(market==='japan'
+        ? '▸ Japan rewards heavy adaptation (≈78): flavours, meaning, channel.'
+        : market==='uk'
+        ? '▸ UK rewards standardization (≈22): one consistent brand &amp; tagline.'
+        : '▸ A new market often starts balanced, then shifts with evidence.')+'</span>';
+  }
+  function draw(cost,rel,a,target){
+    const W=cv.width,H=cv.height; ctx.clearRect(0,0,W,H);
+    const x0=40,y0=18,w=W-60,h=H-46;
+    // two bars
+    const bh=18, gap=16;
+    ctx.fillStyle=C.soft; ctx.font='11px "JetBrains Mono", monospace';
+    ctx.fillText('cost eff.',x0-34,y0+bh-4);
+    roundRect(ctx,x0,y0,w,bh,9); ctx.fillStyle=C.parch; ctx.fill();
+    roundRect(ctx,x0,y0,Math.max(w*cost/100,8),bh,9); ctx.fillStyle=C.gold; ctx.fill();
+    const y2=y0+bh+gap;
+    ctx.fillStyle=C.soft; ctx.fillText('local rel.',x0-34,y2+bh-4);
+    roundRect(ctx,x0,y2,w,bh,9); ctx.fillStyle=C.parch; ctx.fill();
+    roundRect(ctx,x0,y2,Math.max(w*rel/100,8),bh,9); ctx.fillStyle=C.matcha; ctx.fill();
+    // ideal marker line
+    const mx=x0+w*target/100;
+    ctx.strokeStyle=C.crimson; ctx.lineWidth=2; ctx.setLineDash([4,3]);
+    ctx.beginPath(); ctx.moveTo(mx,y0-4); ctx.lineTo(mx,y2+bh+4); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle=C.crimson; ctx.font='9px "JetBrains Mono", monospace'; ctx.textAlign='center';
+    ctx.fillText('ideal',mx,y2+bh+14); ctx.textAlign='left';
+  }
+  document.querySelectorAll('#ss-market button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      document.querySelectorAll('#ss-market button').forEach(x=>x.classList.remove('on'));
+      b.classList.add('on'); market=b.dataset.m;
+      slider.value = SWEET[market]; compute();
+    });
+  });
+  slider.addEventListener('input',compute);
+  window.__ssCompute=compute; compute();
+})();
+
+/* ---------- redraw canvases when their slide opens (fonts/layout) ---------- */
+const _origGo = go;
+go = function(n){
+  _origGo(n);
+  // nudge canvas-based interactives so they paint after becoming visible
+  setTimeout(()=>{
+    try{ if(window.__hofDraw) window.__hofDraw(); }catch(e){}
+    try{ if(window.__cdDraw) window.__cdDraw(); }catch(e){}
+    try{ if(window.__aeRender && slides[idx] && slides[idx].querySelector('#ae-canvas')) {} }catch(e){}
+    try{ if(window.__fsCompute && slides[idx] && slides[idx].querySelector('#fs-canvas')) window.__fsCompute(); }catch(e){}
+    try{ if(window.__ssCompute && slides[idx] && slides[idx].querySelector('#ss-canvas')) window.__ssCompute(); }catch(e){}
+  },60);
+};
+
+/* ---------- INIT (run last to avoid TDZ) ---------- */
+window.__stopGames = function(){};
+go(0);
+</script>
+</body>
+</html>
